@@ -4,16 +4,22 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Input from '@components/Input/Input';
 import styles from "@styles/signUp.module.css";
+import { isValidEmail } from "@lib/utils/validations"
 import { FaUser, FaLock } from 'react-icons/fa';
 
 export default function SignUpForm() {
     const router = useRouter();
     
     const [name, setName] = useState('');
+    const [nameHelperText, setNameHelperText] = useState('');
     const [lastName, setLastName] = useState('');
+    const [lastNameHelperText, setLastNameHelperText] = useState('');
     const [email, setEmail] = useState('');
+    const [emailHelperText, setEmailHelperText] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordHelperText, setPasswordHelperText] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
+    const [repeatPasswordHelperText, setRepeatPasswordHelperText] = useState('');
     
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
@@ -35,8 +41,61 @@ export default function SignUpForm() {
         setRepeatPassword(e.target.value);
     };
 
+    const validateForm = () => {
+        let isValid = true;
+
+        if (name === '') {
+            setNameHelperText("Name is required");
+            isValid = false;
+        } else {
+            setNameHelperText('');
+        }
+
+        if (lastName === '') {
+            setLastNameHelperText("Last Name is required");
+            isValid = false;
+        } else {
+            setLastNameHelperText('');
+        }
+
+
+        if (email === '') {
+            setEmailHelperText("Email is required");
+            isValid = false;
+        } else if (!isValidEmail(email)) {
+            setEmailHelperText("Invalid email format");
+            isValid = false;
+        } else {
+            setEmailHelperText('');
+        }
+
+        if (password === '') {
+            setPasswordHelperText("Password is required");
+            isValid = false;
+        } else if (password.length < 8) {
+            setPasswordHelperText("Password must be at least 8 characters long");
+            isValid = false;
+        } else {
+            setPasswordHelperText('');
+        }
+
+        if (repeatPassword === '') {
+            setRepeatPasswordHelperText("Repeat Password is required");
+            isValid = false;
+        } else if (repeatPassword !== password) {
+            setRepeatPasswordHelperText("Repeat password must match the password");
+            isValid = false;
+        } else {
+            setRepeatPasswordHelperText('');
+        }
+
+        return isValid;
+    };
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!validateForm()) return;
+
         console.log("onSubmit");
     };
 
@@ -53,6 +112,7 @@ export default function SignUpForm() {
                 label="Name"
                 type="text"
                 value={name}
+                helperText={nameHelperText}
                 onChange={handleNameChange}
             />
             <Input
@@ -60,6 +120,7 @@ export default function SignUpForm() {
                 label="Last Name"
                 type="text"
                 value={lastName}
+                helperText={lastNameHelperText}
                 onChange={handleLastNameChange}
             />
             <Input
@@ -67,6 +128,7 @@ export default function SignUpForm() {
                 label="Email"
                 type="text"
                 value={email}
+                helperText={emailHelperText}
                 onChange={handleEmailChange}
             />
             <Input
@@ -74,6 +136,7 @@ export default function SignUpForm() {
                 label="Password"
                 type="password"
                 value={password}
+                helperText={passwordHelperText}
                 onChange={handlePasswordChange}
             />
             <Input
@@ -81,6 +144,7 @@ export default function SignUpForm() {
                 label="Repeat Password"
                 type="password"
                 value={repeatPassword}
+                helperText={repeatPasswordHelperText}
                 onChange={handleRepeatPasswordChange}
             />
             <button 

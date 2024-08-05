@@ -38,6 +38,9 @@ export default function SignInForm() {
         if (password === '') {
             setPasswordHelperText("Password is required");
             isValid = false;
+        } else if (password.length < 8) {
+            setPasswordHelperText("Password must be at least 8 characters long");
+            isValid = false;
         } else {
             setPasswordHelperText('');
         }
