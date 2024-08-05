@@ -48,14 +48,14 @@ interface CustomInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function CustomInput({
+const CustomInput = ({
   Icon,
   type,
   value,
   label,
   helperText,
   onChange
-}: CustomInputProps) {
+}: CustomInputProps) => {
   return (
     <CustomTextField
       variant="standard"
@@ -74,3 +74,5 @@ export default function CustomInput({
     />
   );
 }
+
+export default CustomInput;

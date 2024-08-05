@@ -2,7 +2,7 @@ import Logo from "@components/Logo/Logo";
 import SignInForm from "@components/SignInForm/SignInForm";
 import styles from "@styles/signIn.module.css";
 
-export default function SignIn() {
+const page = async () => {
     return (
       <main className={styles.main}>
         <div className={styles.logoContainer}>
@@ -14,4 +14,6 @@ export default function SignIn() {
       </main>
     );
   }
+
+export default page;
   

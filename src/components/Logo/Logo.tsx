@@ -8,7 +8,7 @@ interface LogoProps {
   redirectToHome?: boolean;
 }
 
-export default function Logo({ redirectToHome = false }: LogoProps) {
+const Logo = ({ redirectToHome = false }: LogoProps) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -26,3 +26,4 @@ export default function Logo({ redirectToHome = false }: LogoProps) {
   );
 };
 
+export default Logo;

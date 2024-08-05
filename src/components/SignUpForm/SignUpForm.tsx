@@ -9,7 +9,7 @@ import { showErrorToast, showSuccessToast } from '@lib/utils/toast';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { toast } from 'react-toastify'
 
-export default function SignUpForm() {
+const SignUpForm = () => {
     const router = useRouter();
     
     const [name, setName] = useState('');
@@ -115,7 +115,7 @@ export default function SignUpForm() {
             const result = await response.json();
             if(response.ok) {
                 router.push('/sign-in');
-                showSuccessToast(`Welcome ${name}!`)
+                showSuccessToast('Registration successful')
             } else {
                 showErrorToast(result.message || 'Registration failed')
             }
@@ -194,3 +194,5 @@ export default function SignUpForm() {
         </form>
     );
 };
+
+export default SignUpForm;

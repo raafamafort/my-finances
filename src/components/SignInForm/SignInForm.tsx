@@ -6,8 +6,10 @@ import Input from '@components/Input/Input';
 import styles from "@styles/signIn.module.css";
 import { isValidEmail } from "@lib/utils/validations"
 import { FaUser, FaLock } from 'react-icons/fa';
+import { signIn } from 'next-auth/react';
+import { showErrorToast } from '@lib/utils/toast';
 
-export default function SignInForm() {
+const SignInForm = () => {
     const router = useRouter();
     
     const [email, setEmail] = useState('');
@@ -48,11 +50,22 @@ export default function SignInForm() {
         return isValid;
     };
 
-    const onSubmit = (e: React.FormEvent) => {
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateForm()) return;
 
-        console.log("onSubmit");
+        const signInData = await signIn('credentials', {
+            email: email,
+            password: password,
+            redirect: false,
+        })
+
+        console.log("signInData", signInData)
+        if(signInData?.error) {
+            showErrorToast('Incorrect email or password')
+        } else {
+            router.push('/resume');
+        }
     };
 
     const handleSignUp = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -100,3 +113,5 @@ export default function SignInForm() {
         </form>
     );
 };
+
+export default SignInForm;
