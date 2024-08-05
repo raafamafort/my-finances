@@ -10,6 +10,9 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
   "& .MuiInputLabel-root": {
     color: '#94A3B8',
   },
+  "& .MuiInputLabel-root.Mui-focused": {
+    color: '#94A3B8',
+  },
   "& .MuiInputBase-input": {
     color: '#FFFFFF',
   },
@@ -28,11 +31,11 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input.Mui-focused": {
     color: '#FFFFFF',
   },
- "& .MuiFormHelperText-root": {
+  "& .MuiFormHelperText-root": {
     color: '#FF0000',
     height: 0,
     margin: 0,
-    padding: 0
+    padding: 0,
   },
 }));
 

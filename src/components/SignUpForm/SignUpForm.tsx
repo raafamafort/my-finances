@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import Input from '@components/Input/Input';
 import styles from "@styles/signUp.module.css";
 import { isValidEmail } from "@lib/utils/validations"
+import { showErrorToast, showSuccessToast } from '@lib/utils/toast';
 import { FaUser, FaLock } from 'react-icons/fa';
+import { toast } from 'react-toastify'
 
 export default function SignUpForm() {
     const router = useRouter();
@@ -92,11 +94,35 @@ export default function SignUpForm() {
         return isValid;
     };
 
-    const onSubmit = (e: React.FormEvent) => {
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateForm()) return;
 
-        console.log("onSubmit");
+        try {
+            const response = await fetch('/api/user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    lastName,
+                    email,
+                    password,
+                }),
+            });
+            
+            const result = await response.json();
+            if(response.ok) {
+                router.push('/sign-in');
+                showSuccessToast(`Welcome ${name}!`)
+            } else {
+                showErrorToast(result.message || 'Registration failed')
+            }
+        } catch (err) {
+            showErrorToast('An unexpected error occurred')
+        }
+
     };
 
     const handleSignIn = (e: React.MouseEvent<HTMLButtonElement>) => {
