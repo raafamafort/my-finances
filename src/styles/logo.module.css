@@ -1,0 +1,12 @@
+.logo {
+    font-size: 2rem;
+    font-weight: normal;
+}
+
+.text{
+    cursor: pointer;
+}
+  
+.boldText {
+    font-weight: bold;
+}
