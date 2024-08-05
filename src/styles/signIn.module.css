@@ -33,6 +33,12 @@
     background-color: #1E293B;
     border: none;
     border-radius: 80px;
+    transition: box-shadow 0.3s ease;
+}
+
+.signInButton:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    transform: scale(1.01);
 }
 
 .orContainer {
@@ -59,4 +65,10 @@
     background-color: transparent;
     border: 1px solid #94A3B8;
     border-radius: 80px;
+    transition: box-shadow 0.3s ease;
+}
+
+.signUpButton:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    transform: scale(1.01);
 }

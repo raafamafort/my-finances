@@ -47,7 +47,7 @@ export default function SignUpForm() {
 
     return (
         <form className={styles.signInForm} onSubmit={onSubmit}>
-            <h1>Sign In</h1>
+            <h1>Sign Up</h1>
             <Input
                 Icon={FaUser}
                 label="Name"

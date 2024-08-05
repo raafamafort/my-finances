@@ -4,13 +4,16 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Input from '@components/Input/Input';
 import styles from "@styles/signIn.module.css";
+import { isValidEmail } from "@lib/utils/validations"
 import { FaUser, FaLock } from 'react-icons/fa';
 
 export default function SignInForm() {
     const router = useRouter();
     
     const [email, setEmail] = useState('');
+    const [emailHelperText, setEmailHelperText] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordHelperText, setPasswordHelperText] = useState('');
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -20,8 +23,32 @@ export default function SignInForm() {
         setPassword(e.target.value);
     };
 
+    const validateForm = () => {
+        let isValid = true;
+        if (email === '') {
+            setEmailHelperText("Email is required");
+            isValid = false;
+        } else if (!isValidEmail(email)) {
+            setEmailHelperText("Invalid email format");
+            isValid = false;
+        } else {
+            setEmailHelperText('');
+        }
+
+        if (password === '') {
+            setPasswordHelperText("Password is required");
+            isValid = false;
+        } else {
+            setPasswordHelperText('');
+        }
+
+        return isValid;
+    };
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!validateForm()) return;
+
         console.log("onSubmit");
     };
 
@@ -38,6 +65,7 @@ export default function SignInForm() {
                 label="Email"
                 type="text"
                 value={email}
+                helperText={emailHelperText}
                 onChange={handleEmailChange}
             />
             <Input
@@ -45,6 +73,7 @@ export default function SignInForm() {
                 label="Password"
                 type="password"
                 value={password}
+                helperText={passwordHelperText}
                 onChange={handlePasswordChange}
             />
             <button 

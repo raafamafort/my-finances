@@ -28,6 +28,12 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input.Mui-focused": {
     color: '#FFFFFF',
   },
+ "& .MuiFormHelperText-root": {
+    color: '#FF0000',
+    height: 0,
+    margin: 0,
+    padding: 0
+  },
 }));
 
 interface CustomInputProps {
@@ -35,6 +41,7 @@ interface CustomInputProps {
   type: string;
   value: string | number;
   label: string;
+  helperText?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -43,7 +50,8 @@ export default function CustomInput({
   type,
   value,
   label,
-  onChange,
+  helperText,
+  onChange
 }: CustomInputProps) {
   return (
     <CustomTextField
@@ -51,6 +59,7 @@ export default function CustomInput({
       type={type}
       label={label}
       value={value}
+      helperText={helperText}
       onChange={onChange}
       InputProps={{
         endAdornment: Icon ? (
