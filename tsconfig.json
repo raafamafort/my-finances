@@ -24,6 +24,7 @@
       "@lib/*": ["src/lib/*"],
       "@app/*": ["src/app/*"],
       "@images/*": ["public/images/*"],
+      "@hooks/*": ["src/hooks/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         {children} 
-        <ToastContainer />
+        <ToastContainer toastStyle={{ backgroundColor: "#1E293B" }}/>
       </body>
     </html>
   );

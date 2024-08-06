@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Avatar, IconButton, MenuItem, Menu, Box, Typography } from '@mui/material';
 import { FaSignOutAlt } from "react-icons/fa";
+import { signOut } from 'next-auth/react';
 
 interface ProfileIconProps {
   name: string;
@@ -98,7 +99,10 @@ export default function ProfileIcon({ name, lastName, email }: ProfileIconProps)
             </Typography>
           </Box>
         </MenuItem>
-        <MenuItem onClick={handleClose} sx={{ color: '#FFF' }}>
+        <MenuItem onClick={()=> signOut({
+          redirect: true,
+          callbackUrl: `${window.location.origin}/sign-in`
+        })} sx={{ color: '#FFF' }}>
           <FaSignOutAlt style={{ color: '#94A3B8', marginRight: '8px' }} /> Sign out
         </MenuItem>
       </Menu>
