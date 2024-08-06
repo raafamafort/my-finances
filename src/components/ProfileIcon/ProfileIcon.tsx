@@ -1,14 +1,16 @@
 'use client'
 
 import * as React from 'react';
-import { Avatar, IconButton, MenuItem, Menu } from '@mui/material';
+import { Avatar, IconButton, MenuItem, Menu, Box, Typography } from '@mui/material';
 import { FaSignOutAlt } from "react-icons/fa";
 
 interface ProfileIconProps {
-  avatarText: string;
+  name: string;
+  lastName: string;
+  email: string;
 }
 
-export default function ProfileIcon({ avatarText }: ProfileIconProps) {
+export default function ProfileIcon({ name, lastName, email }: ProfileIconProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -18,8 +20,11 @@ export default function ProfileIcon({ avatarText }: ProfileIconProps) {
     setAnchorEl(null);
   };
 
+  const avatarText = name.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
+
   return (
     <>
+      
       <IconButton
         onClick={handleClick}
         size="small"
@@ -74,6 +79,25 @@ export default function ProfileIcon({ avatarText }: ProfileIconProps) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        <MenuItem
+          disabled
+          sx={{
+            color: '#FFF',
+            '&.Mui-disabled': {
+              color: '#FFF',
+              opacity: 1,
+            }
+          }}
+        >
+          <Box>
+            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+              {`${name.toUpperCase()} ${lastName.toUpperCase()}`}
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#94A3B8' }}>
+              {email.toLowerCase()}
+            </Typography>
+          </Box>
+        </MenuItem>
         <MenuItem onClick={handleClose} sx={{ color: '#FFF' }}>
           <FaSignOutAlt style={{ color: '#94A3B8', marginRight: '8px' }} /> Sign out
         </MenuItem>

@@ -7,12 +7,13 @@ import ProfileIcon from "@components/ProfileIcon/ProfileIcon";
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
 
-  const nameInitial = session?.user?.name?.charAt(0).toUpperCase() || "";
-  const lastNameInitial = session?.user?.lastName?.charAt(0).toUpperCase() || "";
+  const name = session?.user?.name || "";
+  const lastName = session?.user?.lastName || "";
+  const email = session?.user?.email || "";
 
   return session?.user ? (
     <nav className={styles.navbar}>
-      <ProfileIcon avatarText={`${nameInitial}${lastNameInitial}`} />
+      <ProfileIcon name={name} lastName={lastName} email={email}/>
     </nav>
   ) : null;
 };
