@@ -60,7 +60,6 @@ const SignInForm = () => {
             redirect: false,
         })
 
-        console.log("signInData", signInData)
         if(signInData?.error) {
             showErrorToast('Incorrect email or password')
         } else {
