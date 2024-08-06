@@ -12,7 +12,7 @@ import { useMediaQuery } from "@mui/material";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 export default function RootLayout({
   children,
