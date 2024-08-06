@@ -1,5 +1,3 @@
-'use client'
-
 import { useSession } from "next-auth/react";
 import styles from "@styles/navbar.module.css";
 import ProfileIcon from "@components/ProfileIcon/ProfileIcon";

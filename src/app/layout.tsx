@@ -8,6 +8,7 @@ import "@styles/globals.css";
 import Navbar from "@components/Navbar/Navbar";
 import Provider from "@components/Provider/Provider";
 import Drawer from "@components/Drawer/Drawer";
+import { useMediaQuery } from "@mui/material";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,8 @@ export default function RootLayout({
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  
+  const isWideScreen = useMediaQuery(`(min-width:960px)`);
 
   return (
     <html lang="en">
@@ -33,8 +36,8 @@ export default function RootLayout({
           className={`main-content`}
           style={{
               flexGrow: 1,
-              marginLeft: open ? drawerWidth : 0,
-              width: `calc(100% - ${open ? drawerWidth : 0}px)`,
+              marginLeft: (open && isWideScreen) ? drawerWidth : 0,
+              width: `calc(100% - ${(open && isWideScreen) ? drawerWidth : 0}px)`,
             }}
           >
             <Navbar toggleDrawer={toggleDrawer}/>
