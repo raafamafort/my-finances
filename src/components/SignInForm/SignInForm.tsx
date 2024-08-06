@@ -63,8 +63,8 @@ const SignInForm = () => {
         if(signInData?.error) {
             showErrorToast('Incorrect email or password')
         } else {
-            router.refresh();
             router.push('/resume');
+            router.refresh();
         }
     };
 
