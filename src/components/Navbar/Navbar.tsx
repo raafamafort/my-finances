@@ -1,21 +1,30 @@
-import { authOptions } from "@lib/auth/auth";
-import { getServerSession } from "next-auth";
+'use client'
+
+import { useSession } from "next-auth/react";
 import styles from "@styles/navbar.module.css";
 import ProfileIcon from "@components/ProfileIcon/ProfileIcon";
+import { IconButton } from '@mui/material';
+import { HiMenu } from "react-icons/hi";
 
+interface NavbarProps {
+  toggleDrawer: () => void;
+}
 
-const Navbar = async () => {
-  const session = await getServerSession(authOptions);
+export default function Navbar({ toggleDrawer }: NavbarProps) {
 
-  const name = session?.user?.name || "";
-  const lastName = session?.user?.lastName || "";
-  const email = session?.user?.email || "";
+  const { data: session } = useSession();
 
   return session?.user ? (
     <nav className={styles.navbar}>
-      <ProfileIcon name={name} lastName={lastName} email={email}/>
+      <div>
+      <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer}
+       >
+        <HiMenu />
+      </IconButton>
+      </div>
+      <div>
+        <ProfileIcon name={session?.user?.name} lastName={session?.user?.lastName} email={session?.user?.email}/>
+      </div>
     </nav>
   ) : null;
 };
-
-export default Navbar;

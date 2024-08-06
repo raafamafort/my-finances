@@ -1,29 +1,47 @@
-import type { Metadata } from "next";
+'use client'
+
+import React, { useState } from 'react';
 import { Inter } from "next/font/google";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "@styles/globals.css";
 import Navbar from "@components/Navbar/Navbar";
 import Provider from "@components/Provider/Provider";
+import Drawer from "@components/Drawer/Drawer";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "MyFinances",
-  description: "created by raslow",
-};
+const drawerWidth = 240;
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <Provider>
-          <Navbar />
-          {children} 
+          <main
+          className={`main-content`}
+          style={{
+              flexGrow: 1,
+              marginLeft: open ? drawerWidth : 0,
+              width: `calc(100% - ${open ? drawerWidth : 0}px)`,
+            }}
+          >
+            <Navbar toggleDrawer={toggleDrawer}/>
+            <Drawer open={open}/>
+            {children} 
+          {open && <div onClick={toggleDrawer} style={{ position: 'fixed', top: 0, left: drawerWidth, width: `calc(100% - ${drawerWidth}px)`, height: '100%', zIndex: 1300 }}></div>}
+          </main>
           <ToastContainer toastStyle={{ backgroundColor: "#1E293B" }}/>
         </Provider>
       </body>
