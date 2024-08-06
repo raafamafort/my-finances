@@ -41,7 +41,7 @@ export default function RootLayout({
             }}
           >
             <Navbar toggleDrawer={toggleDrawer}/>
-            <Drawer open={open}/>
+            <Drawer open={open} toggleDrawer={toggleDrawer}/>
             {children} 
           {open && <div onClick={toggleDrawer} style={{ position: 'fixed', top: 0, left: drawerWidth, width: `calc(100% - ${drawerWidth}px)`, height: '100%', zIndex: 1300 }}></div>}
           </main>
