@@ -40,7 +40,6 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
       },
       series: [
         {
-          name: 'Transactions',
           type: 'pie',
           radius: ['40%', '70%'],
           avoidLabelOverlap: false,
@@ -83,14 +82,14 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
     return option;
   }
 
-  return data.length ? (
+  return (
     <ReactECharts
-      style={{ width: "100%", height: "60vh" }}
+      style={{ width: "100vw", height: "60vh" }}
       opts={{ renderer: 'svg' }}
       option={getOption()}
       notMerge
     />
-  ) : null;
+  );
 };
 
 export default DoughnutChart;

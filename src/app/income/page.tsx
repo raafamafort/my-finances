@@ -179,7 +179,7 @@ const Page = () => {
 
   return (
     <main className={styles.container}>
-      <div>
+      <div className={styles.pageTitle}>
         <h1>Incomes</h1>
       </div>
       <div className={styles.content}>
