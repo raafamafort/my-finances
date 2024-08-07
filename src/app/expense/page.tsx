@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import styles from '@styles/income.module.css';
+import styles from '@styles/balance.module.css';
 import InputModal from '@components/InputModal/InputModal';
 import { showErrorToast, showSuccessToast } from '@lib/utils/toast';
 import DoughnutChart from '@components/DoughnutChart/DoughnutChart';
@@ -197,14 +197,14 @@ const Page = () => {
         <div className={styles.chart}>
           <DoughnutChart data={expenses} />
         </div>
-        <div className={styles.incomes}>
+        <div className={styles.balances}>
           {expenses.map((expense, index) => (
             <div key={index}>
-              <div className={styles.incomeItem}>
+              <div className={styles.balanceItem}>
                 <span style={{ color: expense.color }}>
                   {expense.description}
                 </span>
-                <div className={styles.incomeAmount}>
+                <div className={styles.balanceAmount}>
                   <span>R$ {expense.amount}</span>
                   <AiFillEdit
                     size={20}
@@ -215,7 +215,7 @@ const Page = () => {
               </div>
             </div>
           ))}
-          <div className={styles.incomeItem}>
+          <div className={styles.balanceItem}>
             <span style={{ color: '#94A3B8' }}>Add Expense</span>
             <IoMdAddCircle
               size={24}
