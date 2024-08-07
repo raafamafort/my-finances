@@ -7,7 +7,16 @@ import InputModal from "@components/InputModal/InputModal";
 const Page = () => {
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const [modalTitle, setModalTitle] = useState('');
+
+  const handleOpen = (edit: boolean) => {
+    if (edit) {
+      setModalTitle("Edit income")
+    } else {
+      setModalTitle("Add income")
+    }
+    setOpen(true);
+  }
   const handleClose = () => setOpen(false);
 
   const [name, setName] = useState("");
@@ -77,10 +86,11 @@ const Page = () => {
       </div>
       <div className={styles.content}>
         <div>Add Income</div>
-        <button onClick={handleOpen}>Add</button>
+        <button onClick={()=> handleOpen(false)}>Add</button>
+        <button onClick={()=> handleOpen(true)}>Edit</button>
       </div>
       <InputModal
-        title={"Add Income"}
+        title={modalTitle}
         open={open}
         handleClose={handleClose}
         name={name}
