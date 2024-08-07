@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import styles from '@styles/balance.module.css';
 import { showErrorToast } from '@lib/utils/toast';
 import PieChart from '@components/PieChart/PieChart';
+import { useCurrency } from '@context/CurrencyContext';
 
 interface Balance {
   id: number;
@@ -19,7 +20,7 @@ const Page = () => {
 
   const [totalIncome, setTotalIncome] = useState<number>(0);
   const [totalExpense, setTotalExpense] = useState<number>(0);
-  const [currency, setCurrency] = useState<string>('R$');
+  const { currency } = useCurrency();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,13 +63,6 @@ const Page = () => {
 
     fetchData();
   }, [data?.user?.id]);
-
-  useEffect(() => {
-    const storedCurrency = localStorage.getItem('currency');
-    if (storedCurrency) {
-      setCurrency(storedCurrency);
-    }
-  }, []);
 
   return (
     <main className={styles.container}>

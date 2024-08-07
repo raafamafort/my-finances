@@ -8,6 +8,7 @@ import { showErrorToast, showSuccessToast } from '@lib/utils/toast';
 import DoughnutChart from '@components/DoughnutChart/DoughnutChart';
 import { AiFillEdit } from 'react-icons/ai';
 import { IoMdAddCircle } from 'react-icons/io';
+import { useCurrency } from '@context/CurrencyContext';
 
 interface Expense {
   id: number;
@@ -21,16 +22,9 @@ const Page = () => {
   const { data } = useSession();
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [currency, setCurrency] = useState<string>('R$');
+  const { currency } = useCurrency();
 
   const [open, setOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    const storedCurrency = localStorage.getItem('currency');
-    if (storedCurrency) {
-      setCurrency(storedCurrency);
-    }
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -203,7 +197,7 @@ const Page = () => {
       </div>
       <div className={styles.content}>
         <div className={styles.chart}>
-          <DoughnutChart data={expenses} />
+          <DoughnutChart data={expenses} currency={currency} />
         </div>
         <div className={styles.balances}>
           {expenses.map((expense, index) => (

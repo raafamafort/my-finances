@@ -1,26 +1,15 @@
-'use client';
-
 import * as React from 'react';
-import { useRouter } from 'next/navigation';
 import { MenuItem, Menu, Typography } from '@mui/material';
+import { useCurrency } from '@context/CurrencyContext';
 
 export default function ChangeCurrency() {
-  const router = useRouter();
-  const [currency, setCurrency] = React.useState<string>('$');
+  const { currency, setCurrency } = useCurrency();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  React.useEffect(() => {
-    const storedCurrency = localStorage.getItem('currency');
-    if (storedCurrency) {
-      setCurrency(storedCurrency);
-    }
-  }, []);
-
   const handleCurrencyChange = (newCurrency: string) => {
     setCurrency(newCurrency);
-    localStorage.setItem('currency', newCurrency);
-    router.refresh();
+    setAnchorEl(null);
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -85,10 +74,7 @@ export default function ChangeCurrency() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem
-          onClick={() => {
-            handleCurrencyChange('R$');
-            handleClose();
-          }}
+          onClick={() => handleCurrencyChange('R$')}
           sx={{ color: '#FFF' }}
         >
           <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
@@ -96,10 +82,7 @@ export default function ChangeCurrency() {
           </Typography>
         </MenuItem>
         <MenuItem
-          onClick={() => {
-            handleCurrencyChange('$');
-            handleClose();
-          }}
+          onClick={() => handleCurrencyChange('$')}
           sx={{ color: '#FFF' }}
         >
           <Typography variant="body2" sx={{ fontWeight: 'bold' }}>

@@ -9,6 +9,7 @@ import Navbar from '@components/Navbar/Navbar';
 import Provider from '@components/Provider/Provider';
 import Drawer from '@components/Drawer/Drawer';
 import { useMediaQuery } from '@mui/material';
+import { CurrencyProvider } from '@context/CurrencyContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,31 +32,33 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Provider>
-          <main
-            className={'main-content'}
-            style={{
-              flexGrow: 1,
-              marginLeft: open && isWideScreen ? drawerWidth : 0,
-              width: `calc(100% - ${open && isWideScreen ? drawerWidth : 0}px)`,
-            }}
-          >
-            <Navbar toggleDrawer={toggleDrawer} />
-            <Drawer open={open} toggleDrawer={toggleDrawer} />
-            {children}
-            {open && (
-              <div
-                onClick={toggleDrawer}
-                style={{
-                  position: 'fixed',
-                  top: 0,
-                  left: drawerWidth,
-                  width: `calc(100% - ${drawerWidth}px)`,
-                  height: '100%',
-                  zIndex: 1300,
-                }}
-              ></div>
-            )}
-          </main>
+          <CurrencyProvider>
+            <main
+              className={'main-content'}
+              style={{
+                flexGrow: 1,
+                marginLeft: open && isWideScreen ? drawerWidth : 0,
+                width: `calc(100% - ${open && isWideScreen ? drawerWidth : 0}px)`,
+              }}
+            >
+              <Navbar toggleDrawer={toggleDrawer} />
+              <Drawer open={open} toggleDrawer={toggleDrawer} />
+              {children}
+              {open && (
+                <div
+                  onClick={toggleDrawer}
+                  style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: drawerWidth,
+                    width: `calc(100% - ${drawerWidth}px)`,
+                    height: '100%',
+                    zIndex: 1300,
+                  }}
+                ></div>
+              )}
+            </main>
+          </CurrencyProvider>
           <ToastContainer toastStyle={{ backgroundColor: '#1E293B' }} />
         </Provider>
       </body>

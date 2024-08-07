@@ -8,9 +8,10 @@ interface DoughnutChartProps {
     description: string;
     color: string;
   }[];
+  currency: string | null;
 }
 
-const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
+const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, currency }) => {
   const getOption = () => {
     const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
 
@@ -25,7 +26,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
         borderWidth: 1,
       },
       title: {
-        text: `${localStorage.getItem('currency')} ${totalAmount.toLocaleString()}`,
+        text: `${currency} ${totalAmount.toLocaleString()}`,
         left: 'center',
         top: 'center',
         textStyle: {
