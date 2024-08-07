@@ -1,14 +1,93 @@
-import { authOptions } from '@lib/auth/auth';
-import { getServerSession } from 'next-auth';
+'use client';
 
-const page = async () => {
-  const session = await getServerSession(authOptions);
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import styles from '@styles/balance.module.css';
+import { showErrorToast } from '@lib/utils/toast';
+import PieChart from '@components/PieChart/PieChart';
+
+interface Balance {
+  id: number;
+  userId: number;
+  amount: number;
+  description: string;
+  color: string;
+}
+
+const Page = () => {
+  const { data } = useSession();
+
+  const [totalIncome, setTotalIncome] = useState<number>(0);
+  const [totalExpense, setTotalExpense] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (data?.user?.id) {
+        try {
+          const [incomeResponse, expenseResponse] = await Promise.all([
+            fetch(`/api/income?userId=${data?.user?.id}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }),
+            fetch(`/api/expense?userId=${data?.user?.id}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }),
+          ]);
+
+          const incomeResult = await incomeResponse.json();
+          const totalIncome = incomeResult.incomes.reduce(
+            (sum: number, income: Balance) => sum + income.amount,
+            0,
+          );
+          setTotalIncome(totalIncome);
+
+          const expenseResult = await expenseResponse.json();
+          const totalExpense = expenseResult.expenses.reduce(
+            (sum: number, expense: Balance) => sum + expense.amount,
+            0,
+          );
+          setTotalExpense(totalExpense);
+        } catch (err) {
+          console.error(err);
+          showErrorToast('An unexpected error occurred');
+        }
+      }
+    };
+
+    fetchData();
+  }, [data?.user?.id]);
 
   return (
-    <main>
-      <h1>Welcome {session?.user.name}</h1>
+    <main className={styles.container}>
+      <div className={styles.pageTitle}>
+        <h1>Resume</h1>
+      </div>
+      <div className={styles.content}>
+        <div className={styles.chart}>
+          <PieChart income={totalIncome} expense={totalExpense} />
+        </div>
+        <div className={styles.balances}>
+          <div className={styles.balanceItem}>
+            <span style={{ color: '#8AE08A' }}>Income</span>
+            <span>R$ {totalIncome}</span>
+          </div>
+          <div className={styles.balanceItem}>
+            <span style={{ color: '#FF8B76' }}>Expense</span>
+            <span>R$ {totalExpense}</span>
+          </div>
+          <div className={styles.balanceItem}>
+            <span style={{ color: '#FFF' }}>Net Income</span>
+            <span>R$ {totalIncome - totalExpense}</span>
+          </div>
+        </div>
+      </div>
     </main>
   );
 };
 
-export default page;
+export default Page;
