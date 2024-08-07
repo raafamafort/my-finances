@@ -1,7 +1,6 @@
 'use client';
 
 import Input from '@components/Input/Input';
-import InputColor from '@components/InputColor/InputColor';
 import { Box, Modal } from '@mui/material';
 import { IoClose } from 'react-icons/io5';
 import styles from '@styles/modal.module.css';
@@ -63,7 +62,7 @@ const InputModal: React.FC<InputModalProps> = ({
             helperText={valueHelperText}
             onChange={handleChangeValue}
           />
-          <InputColor color={color} onChange={handleChangeColor} />
+          {/* <InputColor color={color} onChange={handleChangeColor} /> */}
           <div className={styles.modalFooter}>
             {title.includes('Edit') && (
               <button onClick={onDelete} className={styles.editButton}>

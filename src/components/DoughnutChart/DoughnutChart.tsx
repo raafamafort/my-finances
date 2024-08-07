@@ -72,9 +72,9 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, currency }) => {
           data: data.map(item => ({
             value: item.amount,
             name: item.description,
-            itemStyle: {
-              color: item.color,
-            },
+            // itemStyle: {
+            //   color: item.color,
+            // },
           })),
         },
       ],

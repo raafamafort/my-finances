@@ -203,9 +203,7 @@ const Page = () => {
           {expenses.map((expense, index) => (
             <div key={index}>
               <div className={styles.balanceItem}>
-                <span style={{ color: expense.color }}>
-                  {expense.description}
-                </span>
+                <span>{expense.description}</span>
                 <div className={styles.balanceAmount}>
                   <span>{`${currency} ${expense.amount}`}</span>
                   <AiFillEdit
