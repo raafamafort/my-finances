@@ -1,29 +1,34 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import styles from "@styles/income.module.css";
 import InputModal from "@components/InputModal/InputModal";
+import { showErrorToast, showSuccessToast } from "@lib/utils/toast";
 
 const Page = () => {
+
+  const { data } = useSession();
+
   const [open, setOpen] = useState(false);
 
-  const [modalTitle, setModalTitle] = useState('');
+  const [modalTitle, setModalTitle] = useState("");
 
   const handleOpen = (edit: boolean) => {
     if (edit) {
-      setModalTitle("Edit income")
+      setModalTitle("Edit income");
     } else {
-      setModalTitle("Add income")
+      setModalTitle("Add income");
     }
     setOpen(true);
-  }
+  };
   const handleClose = () => setOpen(false);
 
-  const [name, setName] = useState("");
-  const [nameHelperText, setNameHelperText] = useState("");
+  const [description, setDescription] = useState("");
+  const [descriptionHelperText, setDescriptionHelperText] = useState("");
 
-  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const handleChangeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(e.target.value);
   };
 
   const [value, setValue] = useState("");
@@ -45,11 +50,11 @@ const Page = () => {
   const validateForm = () => {
     let isValid = true;
 
-    if (name === "") {
-      setNameHelperText("Name is required");
+    if (description === "") {
+      setDescriptionHelperText("Name is required");
       isValid = false;
     } else {
-      setNameHelperText("");
+      setDescriptionHelperText("");
     }
 
     if (value === "" || Number(value) === 0) {
@@ -65,14 +70,37 @@ const Page = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
+    
+    try {
+      const response = await fetch("/api/income", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: Number(data?.user?.id),
+          description,
+          amount: Number(value),
+          color,
+        }),
+      });
 
-    console.log("submit");
+      const result = await response.json();
+      if (response.ok) {
+        handleClose()
+        showSuccessToast("Registration successful");
+      } else {
+        showErrorToast(result.message || "Registration failed");
+      }
+    } catch (err) {
+      showErrorToast("An unexpected error occurred");
+    }
   };
 
   useEffect(() => {
     if (open) {
-      setName("");
-      setNameHelperText("");
+      setDescription("");
+      setDescriptionHelperText("");
       setValue("");
       setValueHelperText("");
       setColor("#fff");
@@ -86,19 +114,19 @@ const Page = () => {
       </div>
       <div className={styles.content}>
         <div>Add Income</div>
-        <button onClick={()=> handleOpen(false)}>Add</button>
-        <button onClick={()=> handleOpen(true)}>Edit</button>
+        <button onClick={() => handleOpen(false)}>Add</button>
+        <button onClick={() => handleOpen(true)}>Edit</button>
       </div>
       <InputModal
         title={modalTitle}
         open={open}
         handleClose={handleClose}
-        name={name}
-        nameHelperText={nameHelperText}
+        description={description}
+        descriptionHelperText={descriptionHelperText}
         value={value}
         valueHelperText={valueHelperText}
         color={color}
-        handleChangeName={handleChangeName}
+        handleChangeDescription={handleChangeDescription}
         handleChangeValue={handleChangeValue}
         handleChangeColor={handleChangeColor}
         onSubmit={onSubmit}

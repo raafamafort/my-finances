@@ -10,12 +10,12 @@ interface InputModalProps {
   title: string;
   open: boolean;
   handleClose: () => void;
-  name: string;
-  nameHelperText: string;
+  description: string;
+  descriptionHelperText: string;
   value: string;
   valueHelperText: string;
   color: string;
-  handleChangeName: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChangeDescription: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeColor: (color: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -25,12 +25,12 @@ const InputModal: React.FC<InputModalProps> = ({
   title,
   open,
   handleClose,
-  name,
-  nameHelperText,
+  description,
+  descriptionHelperText,
   value,
   valueHelperText,
   color,
-  handleChangeName,
+  handleChangeDescription,
   handleChangeValue,
   handleChangeColor,
   onSubmit,
@@ -48,11 +48,11 @@ const InputModal: React.FC<InputModalProps> = ({
         </div>
         <form className={styles.modalBody} onSubmit={onSubmit}>
           <Input
-            label="Name"
+            label="Description"
             type="text"
-            value={name}
-            helperText={nameHelperText}
-            onChange={handleChangeName}
+            value={description}
+            helperText={descriptionHelperText}
+            onChange={handleChangeDescription}
           />
           <Input
             label="Value"

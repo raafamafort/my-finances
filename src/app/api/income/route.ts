@@ -1,0 +1,53 @@
+import { db } from "@lib/db/db";
+import { NextResponse } from "next/server";
+import * as z from "zod";
+
+const incomeSchema = z.object({
+    description: z.string().min(1, "Description is required").max(50),
+    amount: z.number().min(1, "Amount is required"),
+    color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Color must be a valid hex color with 7 characters"),
+    userId: z.number().min(1, "User is required"),
+});
+
+export async function GET(req: Request) {
+    try {
+        const url = new URL(req.url);
+        const userId = Number(url.searchParams.get("userId"));
+
+        if (isNaN(userId) || userId <= 0) {
+            return NextResponse.json({ message: "Invalid userId" }, { status: 400 });
+        }
+
+        const incomes = await db.income.findMany({
+            where: {
+                userId: userId,
+            },
+        });
+
+        return NextResponse.json({ incomes }, { status: 200 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: "Something went wrong!" }, { status: 500 });
+    }
+}
+
+export async function POST(req: Request) {
+    try {
+        const body = await req.json();
+        const { description, amount, color, userId } = incomeSchema.parse(body);
+
+        const newIncome = await db.income.create({
+            data: {
+                description,
+                amount,
+                color,
+                userId,
+            }
+        });
+
+        return NextResponse.json({ income: newIncome, message: "Income created successfully" }, { status: 201 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: "Something went wrong!" }, { status: 500 });
+    }
+}

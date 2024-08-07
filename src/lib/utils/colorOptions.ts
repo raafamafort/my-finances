@@ -14,9 +14,4 @@ export const colorOptions = [
     '#b8a8b6', // Lilás claro
     '#ff9b00', // Laranja escuro
     '#ff7c2f', // Coral
-    '#f6d06f', // Amarelo pálido
-    '#91c7ae', // Verde menta
-    '#b4e0d9', // Verde água claro
-    '#f0e5de', // Rosa claro
-    '#d4874e', // Vermelho escuro
 ];
