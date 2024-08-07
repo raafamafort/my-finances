@@ -1,36 +1,36 @@
-.content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.pageTitle{
-    padding: 1rem 0 0 1rem;
+.pageTitle {
+  padding: 1rem 0 0 1rem;
 }
 
-.incomes{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 360px;
-    height: 100%;
-    gap: 12px;
+.incomes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 360px;
+  height: 100%;
+  gap: 12px;
 }
 
-.incomeItem{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 12px;
-    width: 320px;
-    height: 40px;
-    background-color: #1E293B;
-    border-radius: 10px;
-    font-size: 1.3rem;
+.incomeItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  width: 320px;
+  height: 40px;
+  background-color: #1e293b;
+  border-radius: 10px;
+  font-size: 1.3rem;
 }
 
-.incomeAmount{
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.incomeAmount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

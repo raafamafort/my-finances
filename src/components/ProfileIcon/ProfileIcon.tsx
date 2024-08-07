@@ -1,8 +1,15 @@
-'use client'
+'use client';
 
 import * as React from 'react';
-import { Avatar, IconButton, MenuItem, Menu, Box, Typography } from '@mui/material';
-import { FaSignOutAlt } from "react-icons/fa";
+import {
+  Avatar,
+  IconButton,
+  MenuItem,
+  Menu,
+  Box,
+  Typography,
+} from '@mui/material';
+import { FaSignOutAlt } from 'react-icons/fa';
 import { signOut } from 'next-auth/react';
 
 interface ProfileIconProps {
@@ -11,7 +18,11 @@ interface ProfileIconProps {
   email: string;
 }
 
-export default function ProfileIcon({ name, lastName, email }: ProfileIconProps) {
+export default function ProfileIcon({
+  name,
+  lastName,
+  email,
+}: ProfileIconProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -21,11 +32,11 @@ export default function ProfileIcon({ name, lastName, email }: ProfileIconProps)
     setAnchorEl(null);
   };
 
-  const avatarText = name.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
+  const avatarText =
+    name.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
 
   return (
     <>
-      
       <IconButton
         onClick={handleClick}
         size="small"
@@ -34,7 +45,16 @@ export default function ProfileIcon({ name, lastName, email }: ProfileIconProps)
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
-        <Avatar sx={{ width: 32, height: 32, bgcolor: "#1E293B", color: "#FFF", padding: "24px", fontWeight: "bold" }}>
+        <Avatar
+          sx={{
+            width: 32,
+            height: 32,
+            bgcolor: '#1E293B',
+            color: '#FFF',
+            padding: '24px',
+            fontWeight: 'bold',
+          }}
+        >
           {avatarText}
         </Avatar>
       </IconButton>
@@ -55,7 +75,7 @@ export default function ProfileIcon({ name, lastName, email }: ProfileIconProps)
               color: '#FFF',
               display: 'flex',
               alignItems: 'center',
-              gap: 1, 
+              gap: 1,
             },
             '& .MuiAvatar-root': {
               width: 32,
@@ -87,7 +107,7 @@ export default function ProfileIcon({ name, lastName, email }: ProfileIconProps)
             '&.Mui-disabled': {
               color: '#FFF',
               opacity: 1,
-            }
+            },
           }}
         >
           <Box>
@@ -99,11 +119,17 @@ export default function ProfileIcon({ name, lastName, email }: ProfileIconProps)
             </Typography>
           </Box>
         </MenuItem>
-        <MenuItem onClick={()=> signOut({
-          redirect: true,
-          callbackUrl: `${window.location.origin}/sign-in`
-        })} sx={{ color: '#FFF' }}>
-          <FaSignOutAlt style={{ color: '#94A3B8', marginRight: '8px' }} /> Sign out
+        <MenuItem
+          onClick={() =>
+            signOut({
+              redirect: true,
+              callbackUrl: `${window.location.origin}/sign-in`,
+            })
+          }
+          sx={{ color: '#FFF' }}
+        >
+          <FaSignOutAlt style={{ color: '#94A3B8', marginRight: '8px' }} /> Sign
+          out
         </MenuItem>
       </Menu>
     </>

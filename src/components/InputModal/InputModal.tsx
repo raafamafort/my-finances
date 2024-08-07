@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Input from "@components/Input/Input";
-import InputColor from "@components/InputColor/InputColor";
-import { Box, Modal } from "@mui/material";
-import { IoClose } from "react-icons/io5";
-import styles from "@styles/modal.module.css";
+import Input from '@components/Input/Input';
+import InputColor from '@components/InputColor/InputColor';
+import { Box, Modal } from '@mui/material';
+import { IoClose } from 'react-icons/io5';
+import styles from '@styles/modal.module.css';
 
 interface InputModalProps {
   title: string;
@@ -35,7 +35,7 @@ const InputModal: React.FC<InputModalProps> = ({
   handleChangeValue,
   handleChangeColor,
   onSubmit,
-  onDelete
+  onDelete,
 }) => {
   return (
     <Modal open={open} onClose={handleClose}>
@@ -65,13 +65,13 @@ const InputModal: React.FC<InputModalProps> = ({
           />
           <InputColor color={color} onChange={handleChangeColor} />
           <div className={styles.modalFooter}>
-            {title.includes("Edit") && (
+            {title.includes('Edit') && (
               <button onClick={onDelete} className={styles.editButton}>
                 Delete
               </button>
             )}
             <button type="submit" className={styles.submitButton}>
-              {title.includes("Add") ? "Submit" : "Save"}
+              {title.includes('Add') ? 'Submit' : 'Save'}
             </button>
           </div>
         </form>

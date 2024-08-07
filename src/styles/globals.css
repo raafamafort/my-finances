@@ -8,10 +8,12 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  color: #FFF;
-  background-color: #0E1C2D;
+  color: #fff;
+  background-color: #0e1c2d;
 }
 
 .main-content {
-  transition: margin-left 0.2s ease, width 0.2s ease;
+  transition:
+    margin-left 0.2s ease,
+    width 0.2s ease;
 }

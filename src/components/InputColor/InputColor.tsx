@@ -3,11 +3,11 @@ import { BlockPicker } from 'react-color';
 import Box from '@mui/material/Box';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import { colorOptions } from '@lib/utils/colorOptions'
+import { colorOptions } from '@lib/utils/colorOptions';
 
 const CustomColorPicker = ({
   color: initialColor,
-  onChange
+  onChange,
 }: {
   color: string;
   onChange: (color: string) => void;
@@ -33,7 +33,10 @@ const CustomColorPicker = ({
 
   return (
     <Box display="flex" alignItems="center" margin={'12px 0'}>
-      <Typography variant="body1" style={{ color: '#94A3B8', marginRight: '8px' }}>
+      <Typography
+        variant="body1"
+        style={{ color: '#94A3B8', marginRight: '8px' }}
+      >
         Color:
       </Typography>
       <Box

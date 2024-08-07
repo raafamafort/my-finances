@@ -19,10 +19,10 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
         trigger: 'item',
         backgroundColor: '#1E293B',
         textStyle: {
-          color: '#fff'
+          color: '#fff',
         },
         borderColor: '#333',
-        borderWidth: 1
+        borderWidth: 1,
       },
       title: {
         text: `R$ ${totalAmount.toLocaleString()}`,
@@ -31,12 +31,12 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
         textStyle: {
           fontSize: 24,
           fontWeight: 'bold',
-          color: '#FFF'
+          color: '#FFF',
         },
         subtextStyle: {
           fontSize: 14,
-          color: '#666'
-        }
+          color: '#666',
+        },
       },
       series: [
         {
@@ -50,11 +50,11 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{d}%', 
+            formatter: '{d}%',
             // color: '#fff',
             fontSize: 12,
             fontWeight: 'bold',
-            padding: 5
+            padding: 5,
           },
           emphasis: {
             label: {
@@ -63,28 +63,28 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
               fontSize: 14,
               fontWeight: 'bold',
               // color: '#fff'
-            }
+            },
           },
           labelLine: {
-            show: false
+            show: false,
           },
           data: data.map(item => ({
             value: item.amount,
             name: item.description,
             itemStyle: {
-              color: item.color
-            }
-          }))
-        }
-      ]
+              color: item.color,
+            },
+          })),
+        },
+      ],
     };
 
     return option;
-  }
+  };
 
   return (
     <ReactECharts
-      style={{ width: "100vw", height: "60vh" }}
+      style={{ width: '100vw', height: '60vh' }}
       opts={{ renderer: 'svg' }}
       option={getOption()}
       notMerge

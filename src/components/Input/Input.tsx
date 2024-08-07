@@ -1,5 +1,5 @@
-import React from "react";
-import { IconType } from "react-icons";
+import React from 'react';
+import { IconType } from 'react-icons';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -7,31 +7,31 @@ import InputAdornment from '@mui/material/InputAdornment';
 const CustomTextField = styled(TextField)(({ theme }) => ({
   width: '312px',
   margin: '12px 0',
-  "& .MuiInputLabel-root": {
+  '& .MuiInputLabel-root': {
     color: '#94A3B8',
   },
-  "& .MuiInputLabel-root.Mui-focused": {
+  '& .MuiInputLabel-root.Mui-focused': {
     color: '#94A3B8',
   },
-  "& .MuiInputBase-input": {
+  '& .MuiInputBase-input': {
     color: '#FFFFFF',
   },
-  "& .MuiInput-underline:before": {
+  '& .MuiInput-underline:before': {
     borderBottomColor: '#94A3B8',
   },
-  "& .MuiInput-underline:hover:before": {
+  '& .MuiInput-underline:hover:before': {
     borderBottomColor: '#94A3B8',
   },
-  "& .MuiInput-underline:after": {
+  '& .MuiInput-underline:after': {
     borderBottomColor: '#94A3B8',
   },
-  "& .MuiInput-underline.Mui-focused:after": {
+  '& .MuiInput-underline.Mui-focused:after': {
     borderBottomColor: '#94A3B8',
   },
-  "& .MuiInputBase-input.Mui-focused": {
+  '& .MuiInputBase-input.Mui-focused': {
     color: '#FFFFFF',
   },
-  "& .MuiFormHelperText-root": {
+  '& .MuiFormHelperText-root': {
     color: '#FF0000',
     height: 0,
     margin: 0,
@@ -54,7 +54,7 @@ const CustomInput = ({
   value,
   label,
   helperText,
-  onChange
+  onChange,
 }: CustomInputProps) => {
   return (
     <CustomTextField
@@ -73,6 +73,6 @@ const CustomInput = ({
       }}
     />
   );
-}
+};
 
 export default CustomInput;
