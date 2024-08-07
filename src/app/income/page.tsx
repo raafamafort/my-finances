@@ -11,8 +11,9 @@ import { IoMdAddCircle } from 'react-icons/io';
 
 interface Income {
   id: number;
-  description: string;
+  userId: number;
   amount: number;
+  description: string;
   color: string;
 }
 

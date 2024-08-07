@@ -28,6 +28,7 @@
     "eqeqeq": ["error", "always"],
     "no-trailing-spaces": "error",
     "object-curly-spacing": ["error", "always"],
-    "jsx-quotes": ["error", "prefer-double"]
+    "jsx-quotes": ["error", "prefer-double"],
+    "react/prop-types": "off"
   }
 }
