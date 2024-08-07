@@ -7,7 +7,6 @@ import styles from '@styles/signUp.module.css';
 import { isValidEmail } from '@lib/utils/validations';
 import { showErrorToast, showSuccessToast } from '@lib/utils/toast';
 import { FaUser, FaLock } from 'react-icons/fa';
-import { toast } from 'react-toastify';
 
 const SignUpForm = () => {
   const router = useRouter();
@@ -121,6 +120,7 @@ const SignUpForm = () => {
         showErrorToast(result.message || 'Registration failed');
       }
     } catch (err) {
+      console.error(err);
       showErrorToast('An unexpected error occurred');
     }
   };

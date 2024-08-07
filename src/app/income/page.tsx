@@ -35,7 +35,8 @@ const Page = () => {
           });
           const result = await response.json();
           setIncomes(result.incomes);
-        } catch (error) {
+        } catch (err) {
+          console.error(err);
           showErrorToast('An unexpected error occurred');
         }
       }
@@ -142,6 +143,7 @@ const Page = () => {
         showErrorToast(result.message || 'Failed');
       }
     } catch (err) {
+      console.error(err);
       showErrorToast('An unexpected error occurred');
     }
   };
@@ -166,6 +168,7 @@ const Page = () => {
         showErrorToast(result.message || 'Failed to delete income');
       }
     } catch (err) {
+      console.error(err);
       showErrorToast('An unexpected error occurred');
     }
   };
