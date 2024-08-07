@@ -19,6 +19,7 @@ const Page = () => {
 
   const [totalIncome, setTotalIncome] = useState<number>(0);
   const [totalExpense, setTotalExpense] = useState<number>(0);
+  const [currency, setCurrency] = useState<string>('R$');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +63,13 @@ const Page = () => {
     fetchData();
   }, [data?.user?.id]);
 
+  useEffect(() => {
+    const storedCurrency = localStorage.getItem('currency');
+    if (storedCurrency) {
+      setCurrency(storedCurrency);
+    }
+  }, []);
+
   return (
     <main className={styles.container}>
       <div className={styles.pageTitle}>
@@ -74,15 +82,15 @@ const Page = () => {
         <div className={styles.balances}>
           <div className={styles.balanceItem}>
             <span style={{ color: '#8AE08A' }}>Income</span>
-            <span>{`${localStorage.getItem('currency')} ${totalIncome}`}</span>
+            <span>{`${currency} ${totalIncome}`}</span>
           </div>
           <div className={styles.balanceItem}>
             <span style={{ color: '#FF8B76' }}>Expense</span>
-            <span>{`${localStorage.getItem('currency')} ${totalExpense}`}</span>
+            <span>{`${currency} ${totalExpense}`}</span>
           </div>
           <div className={styles.balanceItem}>
             <span style={{ color: '#FFF' }}>Net Income</span>
-            <span>{`${localStorage.getItem('currency')} ${totalIncome - totalExpense}`}</span>
+            <span>{`${currency} ${totalIncome - totalExpense}`}</span>
           </div>
         </div>
       </div>

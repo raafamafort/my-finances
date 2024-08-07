@@ -21,8 +21,16 @@ const Page = () => {
   const { data } = useSession();
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [currency, setCurrency] = useState<string>('R$');
 
   const [open, setOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const storedCurrency = localStorage.getItem('currency');
+    if (storedCurrency) {
+      setCurrency(storedCurrency);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -205,7 +213,7 @@ const Page = () => {
                   {expense.description}
                 </span>
                 <div className={styles.balanceAmount}>
-                  <span>{`${localStorage.getItem('currency')} ${expense.amount}`}</span>
+                  <span>{`${currency} ${expense.amount}`}</span>
                   <AiFillEdit
                     size={20}
                     color="#94A3B8"
