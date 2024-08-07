@@ -43,10 +43,10 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
           type: 'pie',
           radius: ['40%', '70%'],
           avoidLabelOverlap: false,
-          padAngle: 5,
-          itemStyle: {
-            borderRadius: 10,
-          },
+          // padAngle: 5,
+          // itemStyle: {
+          //   borderRadius: 10,
+          // },
           label: {
             show: true,
             position: 'inside',
