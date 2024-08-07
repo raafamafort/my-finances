@@ -1,4 +1,6 @@
+import { authOptions } from '@lib/auth/auth';
 import { db } from '@lib/db/db';
+import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
 
@@ -22,6 +24,11 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const userId = Number(url.searchParams.get('userId'));
+
+    const session = await getServerSession(authOptions);
+    if (!session?.user.id || userId !== Number(session?.user.id)) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
 
     if (isNaN(userId) || userId <= 0) {
       return NextResponse.json({ message: 'Invalid userId' }, { status: 400 });
@@ -51,6 +58,11 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { description, amount, color, userId } = expenseSchema.parse(body);
 
+    const session = await getServerSession(authOptions);
+    if (!session?.user.id || userId !== Number(session?.user.id)) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
     const newExpense = await db.expense.create({
       data: {
         description,
@@ -78,6 +90,11 @@ export async function PUT(req: Request) {
     const body = await req.json();
     const { id, description, amount, color, userId } =
       updateExpenseSchema.parse(body);
+
+    const session = await getServerSession(authOptions);
+    if (!session?.user.id || userId !== Number(session?.user.id)) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
 
     const existingExpense = await db.expense.findUnique({
       where: { id },
@@ -130,6 +147,17 @@ export async function DELETE(req: Request) {
       return NextResponse.json(
         { message: 'Expense not found' },
         { status: 404 },
+      );
+    }
+
+    const session = await getServerSession(authOptions);
+    if (
+      !session?.user.id ||
+      existingExpense.userId !== Number(session?.user.id)
+    ) {
+      return NextResponse.json(
+        { message: 'Unauthorized userId' },
+        { status: 403 },
       );
     }
 
