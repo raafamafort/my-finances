@@ -5,14 +5,40 @@ import { useSession } from "next-auth/react";
 import styles from "@styles/income.module.css";
 import InputModal from "@components/InputModal/InputModal";
 import { showErrorToast, showSuccessToast } from "@lib/utils/toast";
+import DoughnutChart from "@components/DoughnutChart/DoughnutChart";
 
 const Page = () => {
 
   const { data } = useSession();
 
-  const [open, setOpen] = useState(false);
+  const [incomes, setIncomes] = useState<any[]>([]);
 
-  const [modalTitle, setModalTitle] = useState("");
+  const [open, setOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (data?.user?.id) {
+        try {
+          
+          const response = await fetch(`/api/income?userId=${data?.user?.id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const result = await response.json();
+          setIncomes(result.incomes)
+        } catch (error) {
+          showErrorToast("An unexpected error occurred");
+        }
+      }
+    };
+    
+    setIncomes([])
+    fetchData();
+  }, [data?.user?.id, open])
+
+  const [modalTitle, setModalTitle] = useState<string>("");
 
   const handleOpen = (edit: boolean) => {
     if (edit) {
@@ -24,15 +50,15 @@ const Page = () => {
   };
   const handleClose = () => setOpen(false);
 
-  const [description, setDescription] = useState("");
-  const [descriptionHelperText, setDescriptionHelperText] = useState("");
+  const [description, setDescription] = useState<string>("");
+  const [descriptionHelperText, setDescriptionHelperText] = useState<string>("");
 
   const handleChangeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(e.target.value);
   };
 
-  const [value, setValue] = useState("");
-  const [valueHelperText, setValueHelperText] = useState("");
+  const [value, setValue] = useState<string>("");
+  const [valueHelperText, setValueHelperText] = useState<string>("");
 
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -110,12 +136,17 @@ const Page = () => {
   return (
     <main className={styles.container}>
       <div>
-        <h1>Income</h1>
+        <h1>Incomes</h1>
       </div>
       <div className={styles.content}>
-        <div>Add Income</div>
-        <button onClick={() => handleOpen(false)}>Add</button>
-        <button onClick={() => handleOpen(true)}>Edit</button>
+        <div className={styles.chart}>
+          <DoughnutChart data={incomes} />
+        </div>
+        <div className={styles.incomes}>
+          <div>Add Income</div>
+          <button onClick={() => handleOpen(false)}>Add</button>
+          <button onClick={() => handleOpen(true)}>Edit</button>
+        </div>
       </div>
       <InputModal
         title={modalTitle}
