@@ -51,7 +51,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
             show: true,
             position: 'inside',
             formatter: '{d}%', 
-            color: '#fff',
+            // color: '#fff',
             fontSize: 12,
             fontWeight: 'bold',
             padding: 5
@@ -62,7 +62,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
               formatter: '{d}%',
               fontSize: 14,
               fontWeight: 'bold',
-              color: '#fff'
+              // color: '#fff'
             }
           },
           labelLine: {

@@ -5,7 +5,7 @@ import * as z from "zod";
 const incomeSchema = z.object({
     description: z.string().min(1, "Description is required").max(50),
     amount: z.number().min(1, "Amount is required"),
-    color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Color must be a valid hex color with 7 characters"),
+    color: z.string().regex(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/, "Color must be a valid hex color with 4 or 7 characters"),
     userId: z.number().min(1, "User is required"),
 });
 
