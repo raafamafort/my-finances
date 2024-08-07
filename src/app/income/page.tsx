@@ -6,7 +6,7 @@ import styles from "@styles/income.module.css";
 import InputModal from "@components/InputModal/InputModal";
 import { showErrorToast, showSuccessToast } from "@lib/utils/toast";
 import DoughnutChart from "@components/DoughnutChart/DoughnutChart";
-import { FaEdit } from "react-icons/fa";
+import { AiFillEdit } from "react-icons/ai";
 import { IoMdAddCircle } from "react-icons/io";
 
 interface Income {
@@ -194,7 +194,7 @@ const Page = () => {
                   <span style={{color: income.color}}>{income.description}</span>
                   <div className={styles.incomeAmount}>
                     <span>R$ {income.amount}</span>
-                    <FaEdit size={20} color="#94A3B8" onClick={() => handleOpen(income)}/>
+                    <AiFillEdit size={20} color="#94A3B8" onClick={() => handleOpen(income)}/>
                   </div>
                 </div>
               </div>
