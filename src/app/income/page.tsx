@@ -80,7 +80,7 @@ const Page = () => {
 
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const isValid = /^(\d*\.?\d*)$/.test(value) && value.split('.').length <= 2;
+    const isValid = /^(\d*\.?\d{0,2})?$/.test(value);
 
     if (isValid) setValue(e.target.value);
   };

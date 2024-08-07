@@ -76,15 +76,15 @@ const Page = () => {
         <div className={styles.balances}>
           <div className={styles.balanceItem}>
             <span style={{ color: '#8AE08A' }}>Income</span>
-            <span>{`${currency} ${totalIncome}`}</span>
+            <span>{`${currency} ${totalIncome.toFixed(2)}`}</span>
           </div>
           <div className={styles.balanceItem}>
             <span style={{ color: '#FF8B76' }}>Expense</span>
-            <span>{`${currency} ${totalExpense}`}</span>
+            <span>{`${currency} ${totalExpense.toFixed(2)}`}</span>
           </div>
           <div className={styles.balanceItem}>
             <span style={{ color: '#FFF' }}>Net Income</span>
-            <span>{`${currency} ${totalIncome - totalExpense}`}</span>
+            <span>{`${currency} ${(totalIncome - totalExpense).toFixed(2)}`}</span>
           </div>
         </div>
       </div>
