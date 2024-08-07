@@ -1,0 +1,49 @@
+.modalBox {
+    position: absolute;
+    min-width: 340px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0E1C2D;
+    padding: 16px;
+    box-shadow: 24px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.closeButton {
+    color: #94A3B8;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.closeButton:hover {
+    color: white;
+    transform: scale(1.05);
+}
+
+.modalBody{
+    display: flex;
+    flex-direction: column;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: end;
+}
+
+.submitButton{
+    color: #FFFFFF;
+    background-color: #1E293B;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
