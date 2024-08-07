@@ -9,6 +9,10 @@ const incomeSchema = z.object({
     userId: z.number().min(1, "User is required"),
 });
 
+const updateIncomeSchema = incomeSchema.extend({
+    id: z.number().min(1, "ID is required"),
+});
+
 export async function GET(req: Request) {
     try {
         const url = new URL(req.url);
@@ -22,6 +26,9 @@ export async function GET(req: Request) {
             where: {
                 userId: userId,
             },
+            orderBy: {
+                amount: 'desc'
+            }
         });
 
         return NextResponse.json({ incomes }, { status: 200 });
@@ -46,6 +53,64 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json({ income: newIncome, message: "Income created successfully" }, { status: 201 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: "Something went wrong!" }, { status: 500 });
+    }
+}
+
+export async function PUT(req: Request) {
+    try {
+        const body = await req.json();
+        const { id, description, amount, color, userId } = updateIncomeSchema.parse(body);
+
+        const existingIncome = await db.income.findUnique({
+            where: { id },
+        });
+
+        if (!existingIncome) {
+            return NextResponse.json({ message: "Income not found" }, { status: 404 });
+        }
+
+        const updatedIncome = await db.income.update({
+            where: { id },
+            data: {
+                description,
+                amount,
+                color,
+                userId,
+            }
+        });
+
+        return NextResponse.json({ income: updatedIncome, message: "Income updated successfully" }, { status: 200 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: "Something went wrong!" }, { status: 500 });
+    }
+}
+
+export async function DELETE(req: Request) {
+    try {
+        const url = new URL(req.url);
+        const id = Number(url.searchParams.get("id"));
+
+        if (isNaN(id) || id <= 0) {
+            return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
+        }
+
+        const existingIncome = await db.income.findUnique({
+            where: { id },
+        });
+
+        if (!existingIncome) {
+            return NextResponse.json({ message: "Income not found" }, { status: 404 });
+        }
+
+        await db.income.delete({
+            where: { id },
+        });
+
+        return NextResponse.json({ message: "Income deleted successfully" }, { status: 200 });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "Something went wrong!" }, { status: 500 });

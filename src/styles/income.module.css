@@ -14,7 +14,7 @@
 }
 
 .chart {
-    width: 100%;
+    width: 140%;
     height: 100%;
 }
 
@@ -24,4 +24,23 @@
     align-items: center;
     width: 360px;
     height: 100%;
+    gap: 12px;
+}
+
+.incomeItem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    width: 320px;
+    height: 40px;
+    background-color: #1E293B;
+    border-radius: 10px;
+    font-size: 1.3rem;
+}
+
+.incomeAmount{
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }

@@ -6,6 +6,15 @@ import styles from "@styles/income.module.css";
 import InputModal from "@components/InputModal/InputModal";
 import { showErrorToast, showSuccessToast } from "@lib/utils/toast";
 import DoughnutChart from "@components/DoughnutChart/DoughnutChart";
+import { FaEdit } from "react-icons/fa";
+import { IoMdAddCircle } from "react-icons/io";
+
+interface Income {
+  id: number;
+  description: string;
+  amount: number;
+  color: string;
+}
 
 const Page = () => {
 
@@ -33,15 +42,22 @@ const Page = () => {
         }
       }
     };
-    
-    setIncomes([])
-    fetchData();
+
+    if (!open){
+      fetchData();
+    }
   }, [data?.user?.id, open])
 
   const [modalTitle, setModalTitle] = useState<string>("");
 
-  const handleOpen = (edit: boolean) => {
-    if (edit) {
+  const [incomeId, setIncomeId] = useState<number>(0);
+
+  const handleOpen = (income?: Income) => {
+    if (income) {
+      setDescription(income.description);
+      setValue(income.amount.toString());
+      setColor(income.color)
+      setIncomeId(income.id)
       setModalTitle("Edit income");
     } else {
       setModalTitle("Add income");
@@ -67,7 +83,7 @@ const Page = () => {
     if (isValid) setValue(e.target.value);
   };
 
-  const [color, setColor] = useState("#fff");
+  const [color, setColor] = useState("#ffe");
 
   const handleChangeColor = (newColor: string) => {
     setColor(newColor);
@@ -98,38 +114,66 @@ const Page = () => {
     if (!validateForm()) return;
     
     try {
+      const method = incomeId === 0 ? "POST" : "PUT";
+      const body = JSON.stringify({
+        ...(incomeId !== 0 && { id: incomeId }),
+        userId: Number(data?.user?.id),
+        description,
+        amount: Number(value),
+        color,
+      });
+  
       const response = await fetch("/api/income", {
-        method: "POST",
+        method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          userId: Number(data?.user?.id),
-          description,
-          amount: Number(value),
-          color,
-        }),
+        body,
       });
-
+  
       const result = await response.json();
       if (response.ok) {
-        handleClose()
-        showSuccessToast("Registration successful");
+        handleClose();
+        showSuccessToast(incomeId === 0 ? "Income created successfully" : "Income updated successfully");
       } else {
-        showErrorToast(result.message || "Registration failed");
+        showErrorToast(result.message || "Failed");
       }
     } catch (err) {
       showErrorToast("An unexpected error occurred");
     }
   };
 
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`/api/income?id=${incomeId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        showSuccessToast("Income deleted successfully");
+        handleClose();
+      } else {
+        showErrorToast(result.message || "Failed to delete income");
+      }
+    } catch (err) {
+      showErrorToast("An unexpected error occurred");
+    }
+  };
+  
+
   useEffect(() => {
-    if (open) {
+    if (!open) {
       setDescription("");
       setDescriptionHelperText("");
       setValue("");
       setValueHelperText("");
       setColor("#fff");
+      setIncomeId(0)
     }
   }, [open]);
 
@@ -143,9 +187,23 @@ const Page = () => {
           <DoughnutChart data={incomes} />
         </div>
         <div className={styles.incomes}>
-          <div>Add Income</div>
-          <button onClick={() => handleOpen(false)}>Add</button>
-          <button onClick={() => handleOpen(true)}>Edit</button>
+          {
+            incomes.map((income, index) => (
+              <div key={index}>
+                <div className={styles.incomeItem}>
+                  <span style={{color: income.color}}>{income.description}</span>
+                  <div className={styles.incomeAmount}>
+                    <span>R$ {income.amount}</span>
+                    <FaEdit size={20} color="#94A3B8" onClick={() => handleOpen(income)}/>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+          <div className={styles.incomeItem}>
+            <span style={{color: '#94A3B8'}}>Add Income</span>
+            <IoMdAddCircle size={24} color="#94A3B8" onClick={() => handleOpen()}/>
+          </div>
         </div>
       </div>
       <InputModal
@@ -161,6 +219,7 @@ const Page = () => {
         handleChangeValue={handleChangeValue}
         handleChangeColor={handleChangeColor}
         onSubmit={onSubmit}
+        onDelete={handleDelete}
       />
     </main>
   );

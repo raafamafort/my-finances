@@ -19,6 +19,7 @@ interface InputModalProps {
   handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeColor: (color: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onDelete: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 const InputModal: React.FC<InputModalProps> = ({
@@ -34,6 +35,7 @@ const InputModal: React.FC<InputModalProps> = ({
   handleChangeValue,
   handleChangeColor,
   onSubmit,
+  onDelete
 }) => {
   return (
     <Modal open={open} onClose={handleClose}>
@@ -63,8 +65,13 @@ const InputModal: React.FC<InputModalProps> = ({
           />
           <InputColor color={color} onChange={handleChangeColor} />
           <div className={styles.modalFooter}>
+            {title.includes("Edit") && (
+              <button onClick={onDelete} className={styles.editButton}>
+                Delete
+              </button>
+            )}
             <button type="submit" className={styles.submitButton}>
-              Submit
+              {title.includes("Add") ? "Submit" : "Save"}
             </button>
           </div>
         </form>

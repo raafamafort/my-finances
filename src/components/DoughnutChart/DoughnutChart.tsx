@@ -85,7 +85,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
 
   return data.length ? (
     <ReactECharts
-      style={{ width: "100%", height: "600px" }}
+      style={{ width: "100%", height: "60vh" }}
       opts={{ renderer: 'svg' }}
       option={getOption()}
       notMerge
