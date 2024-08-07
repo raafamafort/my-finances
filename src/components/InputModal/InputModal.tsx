@@ -18,7 +18,7 @@ interface InputModalProps {
   handleChangeName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeColor: (color: string) => void;
-  onSubmit: () => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const InputModal: React.FC<InputModalProps> = ({
@@ -33,7 +33,7 @@ const InputModal: React.FC<InputModalProps> = ({
   handleChangeName,
   handleChangeValue,
   handleChangeColor,
-  onSubmit
+  onSubmit,
 }) => {
   return (
     <Modal open={open} onClose={handleClose}>
@@ -46,7 +46,7 @@ const InputModal: React.FC<InputModalProps> = ({
             className={styles.closeButton}
           />
         </div>
-        <div className={styles.modalBody}>
+        <form className={styles.modalBody} onSubmit={onSubmit}>
           <Input
             label="Name"
             type="text"
@@ -62,15 +62,12 @@ const InputModal: React.FC<InputModalProps> = ({
             onChange={handleChangeValue}
           />
           <InputColor color={color} onChange={handleChangeColor} />
-        </div>
-        <div className={styles.modalFooter}>
-            <button
-                onClick={onSubmit}
-                className={styles.submitButton}
-            >
-                Submit
+          <div className={styles.modalFooter}>
+            <button type="submit" className={styles.submitButton}>
+              Submit
             </button>
-        </div>
+          </div>
+        </form>
       </Box>
     </Modal>
   );
