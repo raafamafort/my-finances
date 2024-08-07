@@ -3,6 +3,7 @@ import styles from '@styles/navbar.module.css';
 import ProfileIcon from '@components/ProfileIcon/ProfileIcon';
 import { IconButton } from '@mui/material';
 import { HiMenu } from 'react-icons/hi';
+import ChangeCurrency from '@components/ChangeCurrency/ChangeCurrency';
 
 interface NavbarProps {
   toggleDrawer: () => void;
@@ -23,7 +24,8 @@ export default function Navbar({ toggleDrawer }: NavbarProps) {
           <HiMenu />
         </IconButton>
       </div>
-      <div>
+      <div className={styles.rightNav}>
+        <ChangeCurrency />
         <ProfileIcon
           name={session?.user?.name}
           lastName={session?.user?.lastName}

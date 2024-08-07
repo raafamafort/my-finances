@@ -25,7 +25,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
         borderWidth: 1,
       },
       title: {
-        text: `R$ ${totalAmount.toLocaleString()}`,
+        text: `${localStorage.getItem('currency')} ${totalAmount.toLocaleString()}`,
         left: 'center',
         top: 'center',
         textStyle: {

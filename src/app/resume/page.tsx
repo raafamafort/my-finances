@@ -74,15 +74,15 @@ const Page = () => {
         <div className={styles.balances}>
           <div className={styles.balanceItem}>
             <span style={{ color: '#8AE08A' }}>Income</span>
-            <span>R$ {totalIncome}</span>
+            <span>{`${localStorage.getItem('currency')} ${totalIncome}`}</span>
           </div>
           <div className={styles.balanceItem}>
             <span style={{ color: '#FF8B76' }}>Expense</span>
-            <span>R$ {totalExpense}</span>
+            <span>{`${localStorage.getItem('currency')} ${totalExpense}`}</span>
           </div>
           <div className={styles.balanceItem}>
             <span style={{ color: '#FFF' }}>Net Income</span>
-            <span>R$ {totalIncome - totalExpense}</span>
+            <span>{`${localStorage.getItem('currency')} ${totalIncome - totalExpense}`}</span>
           </div>
         </div>
       </div>

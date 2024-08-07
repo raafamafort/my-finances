@@ -70,6 +70,7 @@ const SignInForm = () => {
 
   const handleSignUp = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    localStorage.setItem('currency', 'R$');
     router.push('/sign-up');
   };
 

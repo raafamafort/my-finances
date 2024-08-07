@@ -202,7 +202,7 @@ const Page = () => {
                   {income.description}
                 </span>
                 <div className={styles.balanceAmount}>
-                  <span>R$ {income.amount}</span>
+                  <span>{`${localStorage.getItem('currency')} ${income.amount}`}</span>
                   <AiFillEdit
                     size={20}
                     color="#94A3B8"
