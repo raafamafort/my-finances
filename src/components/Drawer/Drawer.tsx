@@ -78,6 +78,9 @@ export default function Drawer({ open, toggleDrawer }: DrawerProps) {
                   },
                   '& .MuiListItemButton-root': {
                     backgroundColor: 'transparent',
+                    '&:hover': {
+                      backgroundColor: 'transparent',
+                    },
                   },
                 }}
               >
