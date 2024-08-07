@@ -5,11 +5,6 @@ interface PieChartProps {
   expense: number;
 }
 
-interface TooltipParams {
-  value: number;
-  percent: string;
-}
-
 const PieChart: React.FC<PieChartProps> = ({ income, expense }) => {
   const getOption = () => {
     const option = {
