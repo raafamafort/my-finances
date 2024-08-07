@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 function isAuthenticated(request: NextRequest): boolean {
-  const sessionToken = request.cookies.get('next-auth.session-token');
+  const sessionToken = request.cookies.get('next-auth.my-finance-token');
   return Boolean(sessionToken);
 }
 
