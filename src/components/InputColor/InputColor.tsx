@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BlockPicker } from 'react-color';
+import { BlockPicker, ColorResult } from 'react-color';
 import Box from '@mui/material/Box';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
@@ -26,7 +26,7 @@ const CustomColorPicker = ({
     setAnchorEl(null);
   };
 
-  const handleChangeComplete = (color: any) => {
+  const handleChangeComplete = (color: ColorResult) => {
     setColor(color.hex);
     onChange(color.hex);
   };

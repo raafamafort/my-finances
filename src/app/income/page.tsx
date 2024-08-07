@@ -19,7 +19,7 @@ interface Income {
 const Page = () => {
   const { data } = useSession();
 
-  const [incomes, setIncomes] = useState<any[]>([]);
+  const [incomes, setIncomes] = useState<Income[]>([]);
 
   const [open, setOpen] = useState<boolean>(false);
 
