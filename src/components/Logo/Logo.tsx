@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import styles from '@styles/logo.module.css';
 
 interface LogoProps {
@@ -20,7 +21,7 @@ const Logo = ({ redirectToHome = false }: LogoProps) => {
   return (
     <div className={styles.logo}>
       <span className={styles.text} onClick={handleClick}>
-        <span className={styles.boldText}>My</span>Finances
+        <Image src="/Logo.svg" alt="Logo" width={200} height={30} />
       </span>
     </div>
   );
