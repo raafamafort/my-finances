@@ -9,6 +9,7 @@ import DoughnutChart from '@components/DoughnutChart/DoughnutChart';
 import { AiFillEdit } from 'react-icons/ai';
 import { IoMdAddCircle } from 'react-icons/io';
 import { useCurrency } from '@context/CurrencyContext';
+import CategoryModal from '@components/CategoryModal/CategoryModal';
 
 interface Expense {
   id: number;
@@ -16,6 +17,12 @@ interface Expense {
   amount: number;
   description: string;
   color: string;
+}
+
+interface Category {
+  id: number;
+  name: string;
+  userId: number;
 }
 
 const Page = () => {
@@ -196,6 +203,43 @@ const Page = () => {
     }
   }, [open]);
 
+  // Category
+  const [categoryId, setCategoryId] = useState<number>(0);
+  const [categoryModalTitle, setCategoryModalTitle] = useState<string>('');
+  const [openCategoryModal, setOpenCategoryModal] = useState<boolean>(false);
+  const [loadingOnSubmitCategory, setLoadingOnSubmitCategory] = useState(false);
+  const [loadingOnDeleteCategory, setLoadingOnDeleteCategory] = useState(false);
+  const [categoryName, setCategoryName] = useState<string>('');
+  const [categoryNameHelperText, setCategoryNameHelperText] =
+    useState<string>('');
+
+  const handleOpenCategoryModal = (category?: Category) => {
+    if (category) {
+      setCategoryName(category.name);
+      setCategoryId(category.id);
+      setCategoryModalTitle('Edit Category');
+    } else {
+      setCategoryModalTitle('Add Category');
+    }
+    setOpenCategoryModal(true);
+  };
+
+  const handleCloseCategoryModal = () => setOpenCategoryModal(false);
+
+  const handleChangeCategoryName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCategoryName(e.target.value);
+  };
+
+  const onSubmitCategory = async (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDeleteCategory = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+  };
+
   return (
     <main className={styles.container}>
       <div className={styles.pageTitle}>
@@ -229,6 +273,14 @@ const Page = () => {
               onClick={() => handleOpen()}
             />
           </div>
+          <div className={styles.balanceItem}>
+            <span style={{ color: '#94A3B8' }}>Add Category</span>
+            <IoMdAddCircle
+              size={24}
+              color="#94A3B8"
+              onClick={() => handleOpenCategoryModal()}
+            />
+          </div>
         </div>
       </div>
       <InputModal
@@ -247,6 +299,18 @@ const Page = () => {
         onDelete={handleDelete}
         loadingOnSubmit={loadingOnSubmit}
         loadingOnDelete={loadingOnDelete}
+      />
+      <CategoryModal
+        title={categoryModalTitle}
+        open={openCategoryModal}
+        handleClose={handleCloseCategoryModal}
+        name={categoryName}
+        nameHelperText={categoryNameHelperText}
+        handleChangeName={handleChangeCategoryName}
+        onSubmit={onSubmitCategory}
+        onDelete={handleDeleteCategory}
+        loadingOnSubmit={loadingOnSubmitCategory}
+        loadingOnDelete={loadingOnDeleteCategory}
       />
     </main>
   );

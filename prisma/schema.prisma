@@ -9,13 +9,14 @@ datasource db {
 
 model User {
   id        Int       @id @default(autoincrement())
-  email  String    @unique
+  email     String    @unique
   password  String
   name      String
   lastName  String
   createdAt DateTime  @default(now())
   Income    Income[]
   Expense   Expense[]
+  Category  Category[]
 }
 
 model Income {
@@ -29,11 +30,23 @@ model Income {
 }
 
 model Expense {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   userId      Int
   amount      Float
   description String
   color       String
+  categoryId  Int?
+
+  User     User     @relation(fields: [userId], references: [id])
+  Category Category? @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  createdAt   DateTime  @default(now())
+  userId      Int
+  Expenses    Expense[]
 
   User User @relation(fields: [userId], references: [id])
 }
