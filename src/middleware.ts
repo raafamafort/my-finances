@@ -9,7 +9,7 @@ function isAuthenticated(request: NextRequest): boolean {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const protectedRoutes = ['/net-income', '/income', '/expense'];
+  const protectedRoutes = ['/net-income', '/income', '/expense', '/'];
   const publicRoutes = ['/sign-in', '/sign-up', '/'];
 
   if (protectedRoutes.includes(pathname)) {
