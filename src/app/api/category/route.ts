@@ -198,6 +198,10 @@ export async function DELETE(req: Request) {
       );
     }
 
+    await db.expense.deleteMany({
+      where: { categoryId: id },
+    });
+
     await db.category.delete({
       where: { id },
     });
