@@ -196,6 +196,16 @@ const CategoryPage = ({ params }: CategoryPageProps) => {
     setLoadingOnDelete(false);
   };
 
+  useEffect(() => {
+    if (!open) {
+      setDescription('');
+      setDescriptionHelperText('');
+      setValue('');
+      setValueHelperText('');
+      setExpenseId(0);
+    }
+  }, [open]);
+
   return (
     <main className={styles.container}>
       <div
