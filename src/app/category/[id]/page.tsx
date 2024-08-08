@@ -237,13 +237,9 @@ const CategoryPage = ({ params }: CategoryPageProps) => {
               </div>
             </div>
           ))}
-          <div className={styles.balanceItem}>
+          <div className={styles.balanceItem} onClick={() => handleOpen()}>
             <span style={{ color: '#94A3B8' }}>Add Expense</span>
-            <IoMdAddCircle
-              size={24}
-              color="#94A3B8"
-              onClick={() => handleOpen()}
-            />
+            <IoMdAddCircle size={24} color="#94A3B8" />
           </div>
           <InputModal
             title={modalTitle}
