@@ -4,6 +4,11 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
 
+interface CategoryFilters {
+  userId: number;
+  id?: number;
+}
+
 const categorySchema = z.object({
   name: z.string().min(1, 'Name is required').max(50),
   userId: z.number().min(1, 'User is required'),
@@ -16,6 +21,7 @@ const updateCategorySchema = categorySchema.extend({
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
+    const id = Number(url.searchParams.get('id'));
     const userId = Number(url.searchParams.get('userId'));
 
     const session = await getServerSession(authOptions);
@@ -27,10 +33,26 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: 'Invalid userId' }, { status: 400 });
     }
 
+    if (id > 0) {
+      const existingCategory = await db.category.findUnique({
+        where: { id },
+      });
+
+      if (!existingCategory) {
+        return NextResponse.json(
+          { message: 'Category not found' },
+          { status: 404 },
+        );
+      }
+    }
+
+    const filters: CategoryFilters = {
+      userId: userId,
+      ...(Number.isInteger(id) && id > 0 ? { id } : {}),
+    };
+
     const categories = await db.category.findMany({
-      where: {
-        userId: userId,
-      },
+      where: filters,
       include: {
         Expenses: {
           select: {

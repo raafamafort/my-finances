@@ -4,6 +4,11 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import * as z from 'zod';
 
+interface ExpenseFilters {
+  userId: number;
+  categoryId?: number;
+}
+
 const expenseSchema = z.object({
   description: z.string().min(1, 'Description is required').max(50),
   amount: z.number().min(1, 'Amount is required'),
@@ -24,6 +29,7 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const userId = Number(url.searchParams.get('userId'));
+    const categoryId = Number(url.searchParams.get('categoryId'));
 
     const session = await getServerSession(authOptions);
     if (!session?.user.id || userId !== Number(session?.user.id)) {
@@ -34,10 +40,26 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: 'Invalid userId' }, { status: 400 });
     }
 
+    if (categoryId > 0) {
+      const existingCategory = await db.category.findUnique({
+        where: { id: categoryId },
+      });
+
+      if (!existingCategory) {
+        return NextResponse.json(
+          { message: 'Category not found' },
+          { status: 404 },
+        );
+      }
+    }
+
+    const filters: ExpenseFilters = {
+      userId: userId,
+      ...(Number.isInteger(categoryId) && categoryId > 0 ? { categoryId } : {}),
+    };
+
     const expenses = await db.expense.findMany({
-      where: {
-        userId: userId,
-      },
+      where: filters,
       orderBy: {
         amount: 'desc',
       },

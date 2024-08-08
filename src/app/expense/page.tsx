@@ -10,6 +10,8 @@ import { AiFillEdit } from 'react-icons/ai';
 import { IoMdAddCircle } from 'react-icons/io';
 import { useCurrency } from '@context/CurrencyContext';
 import CategoryModal from '@components/CategoryModal/CategoryModal';
+import { BiSolidCategoryAlt } from 'react-icons/bi';
+import { useRouter } from 'next/navigation';
 
 interface Expense {
   id: number;
@@ -17,6 +19,7 @@ interface Expense {
   amount: number;
   description: string;
   color: string;
+  categoryId: number;
 }
 
 interface Category {
@@ -28,6 +31,7 @@ interface Category {
 
 const Page = () => {
   const { data } = useSession();
+  const router = useRouter();
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -60,7 +64,10 @@ const Page = () => {
           ]);
 
           const expenseResult = await expenseResponse.json();
-          setExpenses(expenseResult.expenses);
+          const filteredExpenses = expenseResult.expenses.filter(
+            (expense: Expense) => !expense.categoryId,
+          );
+          setExpenses(filteredExpenses);
 
           const categoryResult = await categoryResponse.json();
           setCategories(categoryResult.categories);
@@ -71,7 +78,7 @@ const Page = () => {
       }
     };
 
-    if (!open) {
+    if (!open && !openCategoryModal) {
       fetchData();
     }
   }, [data?.user?.id, open, openCategoryModal]);
@@ -310,6 +317,10 @@ const Page = () => {
     setLoadingOnDeleteCategory(false);
   };
 
+  const handleOpenCategoryPage = (category: Category) => {
+    router.push(`/category/${category.id}`);
+  };
+
   useEffect(() => {
     if (!openCategoryModal) {
       setCategoryName('');
@@ -346,13 +357,22 @@ const Page = () => {
           {categories.map((category, index) => (
             <div key={index}>
               <div className={styles.balanceItem}>
-                <span>{category.name}</span>
+                <div
+                  className={styles.balanceAmount}
+                  onClick={() => handleOpenCategoryPage(category)}
+                >
+                  <BiSolidCategoryAlt size={20} color="#94A3B8" />
+                  <span>{category.name}</span>
+                </div>
                 <div className={styles.balanceAmount}>
                   <span>{`${currency} ${category.totalAmount}`}</span>
                   <AiFillEdit
                     size={20}
                     color="#94A3B8"
-                    onClick={() => handleOpenCategoryModal(category)}
+                    onClick={e => {
+                      e.stopPropagation();
+                      handleOpenCategoryModal(category);
+                    }}
                   />
                 </div>
               </div>
