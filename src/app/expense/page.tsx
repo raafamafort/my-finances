@@ -380,7 +380,7 @@ const Page = () => {
                   <span>{category.name}</span>
                 </div>
                 <div className={styles.balanceAmount}>
-                  <span>{`${currency} ${category.totalAmount}`}</span>
+                  <span>{`${currency} ${category.totalAmount.toFixed(2)}`}</span>
                   <AiFillEdit
                     size={20}
                     color="#94A3B8"

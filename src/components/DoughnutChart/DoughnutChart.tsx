@@ -67,7 +67,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, currency }) => {
             show: false,
           },
           data: data.map(item => ({
-            value: item.amount,
+            value: item.amount.toFixed(2),
             name: item.description,
             // itemStyle: {
             //   color: item.color,
