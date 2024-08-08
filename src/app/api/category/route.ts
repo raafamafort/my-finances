@@ -95,16 +95,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const existingName = await db.category.findUnique({
-      where: { name: name },
-    });
-    if (existingName) {
-      return NextResponse.json(
-        { name: null, message: 'Name already exists' },
-        { status: 409 },
-      );
-    }
-
     const newCategory = await db.category.create({
       data: {
         name,
