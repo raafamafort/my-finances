@@ -14,10 +14,8 @@ interface InputModalProps {
   descriptionHelperText: string;
   value: string;
   valueHelperText: string;
-  color: string;
   handleChangeDescription: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeColor: (color: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onDelete: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   loadingOnSubmit: boolean;
@@ -32,10 +30,8 @@ const InputModal: React.FC<InputModalProps> = ({
   descriptionHelperText,
   value,
   valueHelperText,
-  color,
   handleChangeDescription,
   handleChangeValue,
-  handleChangeColor,
   onSubmit,
   onDelete,
   loadingOnSubmit,
@@ -67,7 +63,6 @@ const InputModal: React.FC<InputModalProps> = ({
             helperText={valueHelperText}
             onChange={handleChangeValue}
           />
-          {/* <InputColor color={color} onChange={handleChangeColor} /> */}
           <div className={styles.modalFooter}>
             {title.includes('Edit') && (
               <LoadingButton

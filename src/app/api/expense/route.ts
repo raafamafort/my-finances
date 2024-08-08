@@ -9,6 +9,14 @@ interface ExpenseFilters {
   categoryId?: number;
 }
 
+interface Expense {
+  description: string;
+  amount: number;
+  color: string;
+  userId: number;
+  categoryId?: number;
+}
+
 const expenseSchema = z.object({
   description: z.string().min(1, 'Description is required').max(50),
   amount: z.number().min(1, 'Amount is required'),
@@ -19,6 +27,7 @@ const expenseSchema = z.object({
       'Color must be a valid hex color with 4 or 7 characters',
     ),
   userId: z.number().min(1, 'User is required'),
+  categoryId: z.number().optional(),
 });
 
 const updateExpenseSchema = expenseSchema.extend({
@@ -78,20 +87,27 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { description, amount, color, userId } = expenseSchema.parse(body);
+    const { description, amount, color, userId, categoryId } =
+      expenseSchema.parse(body);
 
     const session = await getServerSession(authOptions);
     if (!session?.user.id || userId !== Number(session?.user.id)) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
+    const createData: Expense = {
+      description,
+      amount,
+      color,
+      userId,
+    };
+
+    if (categoryId) {
+      createData.categoryId = categoryId;
+    }
+
     const newExpense = await db.expense.create({
-      data: {
-        description,
-        amount,
-        color,
-        userId,
-      },
+      data: createData,
     });
 
     return NextResponse.json(
@@ -110,7 +126,7 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const { id, description, amount, color, userId } =
+    const { id, description, amount, color, userId, categoryId } =
       updateExpenseSchema.parse(body);
 
     const session = await getServerSession(authOptions);
@@ -129,14 +145,20 @@ export async function PUT(req: Request) {
       );
     }
 
+    const updateData: Expense = {
+      description,
+      amount,
+      color,
+      userId,
+    };
+
+    if (categoryId) {
+      updateData.categoryId = categoryId;
+    }
+
     const updatedExpense = await db.expense.update({
       where: { id },
-      data: {
-        description,
-        amount,
-        color,
-        userId,
-      },
+      data: updateData,
     });
 
     return NextResponse.json(

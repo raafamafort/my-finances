@@ -91,7 +91,6 @@ const Page = () => {
     if (expense) {
       setDescription(expense.description);
       setValue(expense.amount.toString());
-      setColor(expense.color);
       setExpenseId(expense.id);
       setModalTitle('Edit expense');
     } else {
@@ -117,12 +116,6 @@ const Page = () => {
     const isValid = /^(\d*\.?\d{0,2})?$/.test(value);
 
     if (isValid) setValue(e.target.value);
-  };
-
-  const [color, setColor] = useState('#ffe');
-
-  const handleChangeColor = (newColor: string) => {
-    setColor(newColor);
   };
 
   const validateForm = () => {
@@ -156,7 +149,7 @@ const Page = () => {
         userId: Number(data?.user?.id),
         description,
         amount: Number(value),
-        color,
+        color: '#ffffff',
       });
 
       const response = await fetch('/api/expense', {
@@ -218,7 +211,6 @@ const Page = () => {
       setDescriptionHelperText('');
       setValue('');
       setValueHelperText('');
-      setColor('#fff');
       setExpenseId(0);
     }
   }, [open]);
@@ -404,10 +396,8 @@ const Page = () => {
         descriptionHelperText={descriptionHelperText}
         value={value}
         valueHelperText={valueHelperText}
-        color={color}
         handleChangeDescription={handleChangeDescription}
         handleChangeValue={handleChangeValue}
-        handleChangeColor={handleChangeColor}
         onSubmit={onSubmit}
         onDelete={handleDelete}
         loadingOnSubmit={loadingOnSubmit}
