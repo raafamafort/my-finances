@@ -23,15 +23,19 @@ interface Category {
   id: number;
   name: string;
   userId: number;
+  totalAmount: number;
 }
 
 const Page = () => {
   const { data } = useSession();
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const { currency } = useCurrency();
 
   const [open, setOpen] = useState<boolean>(false);
+  const [openCategoryModal, setOpenCategoryModal] = useState<boolean>(false);
 
   const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
   const [loadingOnDelete, setLoadingOnDelete] = useState(false);
@@ -40,17 +44,26 @@ const Page = () => {
     const fetchData = async () => {
       if (data?.user?.id) {
         try {
-          const response = await fetch(
-            `/api/expense?userId=${data?.user?.id}`,
-            {
+          const [expenseResponse, categoryResponse] = await Promise.all([
+            await fetch(`/api/expense?userId=${data?.user?.id}`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
               },
-            },
-          );
-          const result = await response.json();
-          setExpenses(result.expenses);
+            }),
+            await fetch(`/api/category?userId=${data?.user?.id}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }),
+          ]);
+
+          const expenseResult = await expenseResponse.json();
+          setExpenses(expenseResult.expenses);
+
+          const categoryResult = await categoryResponse.json();
+          setCategories(categoryResult.categories);
         } catch (err) {
           console.error(err);
           showErrorToast('An unexpected error occurred');
@@ -61,7 +74,7 @@ const Page = () => {
     if (!open) {
       fetchData();
     }
-  }, [data?.user?.id, open]);
+  }, [data?.user?.id, open, openCategoryModal]);
 
   const [modalTitle, setModalTitle] = useState<string>('');
 
@@ -206,7 +219,6 @@ const Page = () => {
   // Category
   const [categoryId, setCategoryId] = useState<number>(0);
   const [categoryModalTitle, setCategoryModalTitle] = useState<string>('');
-  const [openCategoryModal, setOpenCategoryModal] = useState<boolean>(false);
   const [loadingOnSubmitCategory, setLoadingOnSubmitCategory] = useState(false);
   const [loadingOnDeleteCategory, setLoadingOnDeleteCategory] = useState(false);
   const [categoryName, setCategoryName] = useState<string>('');
@@ -232,13 +244,79 @@ const Page = () => {
 
   const onSubmitCategory = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (categoryName === '') {
+      setCategoryNameHelperText('Name is required');
+      return;
+    } else {
+      setCategoryNameHelperText('');
+    }
+
+    setLoadingOnSubmitCategory(true);
+
+    try {
+      const method = categoryId === 0 ? 'POST' : 'PUT';
+      const body = JSON.stringify({
+        ...(categoryId !== 0 && { id: categoryId }),
+        userId: Number(data?.user?.id),
+        name: categoryName,
+      });
+
+      const response = await fetch('/api/category', {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body,
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        handleCloseCategoryModal();
+        showSuccessToast('Category created successfully');
+      } else {
+        showErrorToast(result.message || 'Failed');
+      }
+    } catch (err) {
+      console.error(err);
+      showErrorToast('An unexpected error occurred');
+    }
+    setLoadingOnSubmitCategory(false);
   };
 
   const handleDeleteCategory = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
+    setLoadingOnDeleteCategory(true);
+    try {
+      const response = await fetch(`/api/category?id=${categoryId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        showSuccessToast('Category deleted successfully');
+        handleCloseCategoryModal();
+      } else {
+        showErrorToast(result.message || 'Failed to delete category');
+      }
+    } catch (err) {
+      console.error(err);
+      showErrorToast('An unexpected error occurred');
+    }
+    setLoadingOnDeleteCategory(false);
   };
+
+  useEffect(() => {
+    if (!openCategoryModal) {
+      setCategoryName('');
+      setCategoryNameHelperText('');
+      setCategoryId(0);
+    }
+  }, [openCategoryModal]);
 
   return (
     <main className={styles.container}>
@@ -260,6 +338,21 @@ const Page = () => {
                     size={20}
                     color="#94A3B8"
                     onClick={() => handleOpen(expense)}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+          {categories.map((category, index) => (
+            <div key={index}>
+              <div className={styles.balanceItem}>
+                <span>{category.name}</span>
+                <div className={styles.balanceAmount}>
+                  <span>{`${currency} ${category.totalAmount}`}</span>
+                  <AiFillEdit
+                    size={20}
+                    color="#94A3B8"
+                    onClick={() => handleOpenCategoryModal(category)}
                   />
                 </div>
               </div>
