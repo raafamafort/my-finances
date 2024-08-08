@@ -29,12 +29,22 @@ interface Category {
   totalAmount: number;
 }
 
+interface CategoryResponse {
+  categories: Category[];
+}
+
+interface DataChart {
+  description: string;
+  amount: number;
+}
+
 const Page = () => {
   const { data } = useSession();
   const router = useRouter();
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [dataChart, setDataChart] = useState<DataChart[]>([]);
 
   const { currency } = useCurrency();
 
@@ -49,13 +59,13 @@ const Page = () => {
       if (data?.user?.id) {
         try {
           const [expenseResponse, categoryResponse] = await Promise.all([
-            await fetch(`/api/expense?userId=${data?.user?.id}`, {
+            fetch(`/api/expense?userId=${data?.user?.id}`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
               },
             }),
-            await fetch(`/api/category?userId=${data?.user?.id}`, {
+            fetch(`/api/category?userId=${data?.user?.id}`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -64,13 +74,26 @@ const Page = () => {
           ]);
 
           const expenseResult = await expenseResponse.json();
-          const filteredExpenses = expenseResult.expenses.filter(
+          const filteredExpenses: Expense[] = expenseResult.expenses.filter(
             (expense: Expense) => !expense.categoryId,
           );
           setExpenses(filteredExpenses);
 
-          const categoryResult = await categoryResponse.json();
+          const categoryResult: CategoryResponse =
+            await categoryResponse.json();
           setCategories(categoryResult.categories);
+
+          const expenseEntries = filteredExpenses.map(expense => ({
+            description: expense.description,
+            amount: expense.amount,
+          }));
+
+          const categoryEntries = categoryResult.categories.map(category => ({
+            description: category.name,
+            amount: category.totalAmount,
+          }));
+
+          setDataChart([...expenseEntries, ...categoryEntries]);
         } catch (err) {
           console.error(err);
           showErrorToast('An unexpected error occurred');
@@ -328,7 +351,7 @@ const Page = () => {
       </div>
       <div className={styles.content}>
         <div className={styles.chart}>
-          <DoughnutChart data={expenses} currency={currency} />
+          <DoughnutChart data={dataChart} currency={currency} />
         </div>
         <div className={styles.balances}>
           {expenses.map((expense, index) => (

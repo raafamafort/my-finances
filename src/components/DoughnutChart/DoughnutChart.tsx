@@ -2,16 +2,14 @@ import ReactECharts from 'echarts-for-react';
 
 interface DoughnutChartProps {
   data: {
-    id: number;
-    userId: number;
     amount: number;
     description: string;
-    color: string;
   }[];
   currency: string | null;
 }
 
 const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, currency }) => {
+  console.log(data, 'data');
   const getOption = () => {
     const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
 
