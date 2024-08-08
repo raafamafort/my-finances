@@ -9,7 +9,7 @@ function isAuthenticated(request: NextRequest): boolean {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const protectedRoutes = ['/resume', '/income', '/expense'];
+  const protectedRoutes = ['/net-income', '/income', '/expense'];
   const publicRoutes = ['/sign-in', '/sign-up', '/'];
 
   if (protectedRoutes.includes(pathname)) {
@@ -21,8 +21,8 @@ export async function middleware(request: NextRequest) {
 
   if (publicRoutes.includes(pathname)) {
     if (isAuthenticated(request)) {
-      const resumeUrl = new URL('/resume', request.url);
-      return NextResponse.redirect(resumeUrl);
+      const netIncomeUrl = new URL('/net-income', request.url);
+      return NextResponse.redirect(netIncomeUrl);
     }
   }
 

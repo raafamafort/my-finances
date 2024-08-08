@@ -1,12 +1,19 @@
 import ReactECharts from 'echarts-for-react';
 
-interface PieChartProps {
+interface DoughnutChartProps {
   income: number;
   expense: number;
+  currency: string;
 }
 
-const PieChart: React.FC<PieChartProps> = ({ income, expense }) => {
+const DoughnutChart: React.FC<DoughnutChartProps> = ({
+  income,
+  expense,
+  currency,
+}) => {
   const getOption = () => {
+    const difference = income - expense;
+
     const option = {
       tooltip: {
         trigger: 'item',
@@ -17,21 +24,35 @@ const PieChart: React.FC<PieChartProps> = ({ income, expense }) => {
         borderColor: '#333',
         borderWidth: 1,
       },
+      title: {
+        text: `${currency} ${difference.toFixed(2)}`,
+        left: 'center',
+        top: 'center',
+        textStyle: {
+          fontSize: 24,
+          fontWeight: 'bold',
+          color: '#FFF',
+        },
+        subtextStyle: {
+          fontSize: 14,
+          color: '#666',
+        },
+      },
       series: [
         {
           type: 'pie',
-          radius: '70%',
-          labelLine: {
-            show: false,
-          },
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
           label: {
             show: true,
             position: 'inside',
             formatter: '{d}%',
-            // color: '#fff',
             fontSize: 12,
             fontWeight: 'bold',
             padding: 5,
+          },
+          labelLine: {
+            show: false,
           },
           data: [
             {
@@ -73,4 +94,4 @@ const PieChart: React.FC<PieChartProps> = ({ income, expense }) => {
   );
 };
 
-export default PieChart;
+export default DoughnutChart;

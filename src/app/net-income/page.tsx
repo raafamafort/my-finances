@@ -67,11 +67,15 @@ const Page = () => {
   return (
     <main className={styles.container}>
       <div className={styles.pageTitle}>
-        <h1>Resume</h1>
+        <h1>Net Income</h1>
       </div>
       <div className={styles.content}>
         <div className={styles.chart}>
-          <PieChart income={totalIncome} expense={totalExpense} />
+          <PieChart
+            income={totalIncome}
+            expense={totalExpense}
+            currency={currency}
+          />
         </div>
         <div className={styles.balances}>
           <div className={styles.balanceItem}>
