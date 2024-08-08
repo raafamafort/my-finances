@@ -7,6 +7,8 @@ import styles from '@styles/signUp.module.css';
 import { isValidEmail } from '@lib/utils/validations';
 import { showErrorToast, showSuccessToast } from '@lib/utils/toast';
 import { FaUser, FaLock } from 'react-icons/fa';
+import { Button } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const SignUpForm = () => {
   const router = useRouter();
@@ -21,6 +23,7 @@ const SignUpForm = () => {
   const [passwordHelperText, setPasswordHelperText] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [repeatPasswordHelperText, setRepeatPasswordHelperText] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -97,6 +100,7 @@ const SignUpForm = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
+    setLoading(true);
 
     try {
       const response = await fetch('/api/user', {
@@ -123,6 +127,8 @@ const SignUpForm = () => {
       console.error(err);
       showErrorToast('An unexpected error occurred');
     }
+
+    setLoading(false);
   };
 
   const handleSignIn = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -173,21 +179,25 @@ const SignUpForm = () => {
         helperText={repeatPasswordHelperText}
         onChange={handleRepeatPasswordChange}
       />
-      <button className={styles.signInButton} type="submit">
+      <LoadingButton
+        className={styles.signInButton}
+        type="submit"
+        loading={loading}
+      >
         Sign up
-      </button>
+      </LoadingButton>
       <div className={styles.orContainer}>
         <div className={styles.line}></div>
         <span className={styles.orText}>Or</span>
         <div className={styles.line}></div>
       </div>
-      <button
+      <Button
         className={styles.signUpButton}
         type="button"
         onClick={handleSignIn}
       >
         Sign in
-      </button>
+      </Button>
     </form>
   );
 };

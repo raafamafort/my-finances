@@ -35,14 +35,14 @@ const PieChart: React.FC<PieChartProps> = ({ income, expense }) => {
           },
           data: [
             {
-              value: income,
+              value: income.toFixed(2),
               name: 'Income',
               itemStyle: {
                 color: '#8AE08A',
               },
             },
             {
-              value: expense,
+              value: expense.toFixed(2),
               name: 'Expense',
               itemStyle: {
                 color: '#FF8B76',

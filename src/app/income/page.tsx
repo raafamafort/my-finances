@@ -24,6 +24,8 @@ const Page = () => {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const { currency } = useCurrency();
   const [open, setOpen] = useState<boolean>(false);
+  const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
+  const [loadingOnDelete, setLoadingOnDelete] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -114,6 +116,7 @@ const Page = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
+    setLoadingOnSubmit(true);
 
     try {
       const method = incomeId === 0 ? 'POST' : 'PUT';
@@ -148,12 +151,14 @@ const Page = () => {
       console.error(err);
       showErrorToast('An unexpected error occurred');
     }
+    setLoadingOnSubmit(false);
   };
 
   const handleDelete = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
+    setLoadingOnDelete(true);
     try {
       const response = await fetch(`/api/income?id=${incomeId}`, {
         method: 'DELETE',
@@ -173,6 +178,7 @@ const Page = () => {
       console.error(err);
       showErrorToast('An unexpected error occurred');
     }
+    setLoadingOnDelete(false);
   };
 
   useEffect(() => {
@@ -235,6 +241,8 @@ const Page = () => {
         handleChangeColor={handleChangeColor}
         onSubmit={onSubmit}
         onDelete={handleDelete}
+        loadingOnSubmit={loadingOnSubmit}
+        loadingOnDelete={loadingOnDelete}
       />
     </main>
   );

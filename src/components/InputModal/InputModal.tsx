@@ -4,6 +4,7 @@ import Input from '@components/Input/Input';
 import { Box, Modal } from '@mui/material';
 import { IoClose } from 'react-icons/io5';
 import styles from '@styles/modal.module.css';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 interface InputModalProps {
   title: string;
@@ -19,6 +20,8 @@ interface InputModalProps {
   handleChangeColor: (color: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onDelete: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  loadingOnSubmit: boolean;
+  loadingOnDelete: boolean;
 }
 
 const InputModal: React.FC<InputModalProps> = ({
@@ -35,6 +38,8 @@ const InputModal: React.FC<InputModalProps> = ({
   handleChangeColor,
   onSubmit,
   onDelete,
+  loadingOnSubmit,
+  loadingOnDelete,
 }) => {
   return (
     <Modal open={open} onClose={handleClose}>
@@ -65,13 +70,21 @@ const InputModal: React.FC<InputModalProps> = ({
           {/* <InputColor color={color} onChange={handleChangeColor} /> */}
           <div className={styles.modalFooter}>
             {title.includes('Edit') && (
-              <button onClick={onDelete} className={styles.editButton}>
+              <LoadingButton
+                onClick={onDelete}
+                className={styles.editButton}
+                loading={loadingOnDelete}
+              >
                 Delete
-              </button>
+              </LoadingButton>
             )}
-            <button type="submit" className={styles.submitButton}>
+            <LoadingButton
+              type="submit"
+              className={styles.submitButton}
+              loading={loadingOnSubmit}
+            >
               {title.includes('Add') ? 'Submit' : 'Save'}
-            </button>
+            </LoadingButton>
           </div>
         </form>
       </Box>

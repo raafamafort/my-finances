@@ -26,6 +26,9 @@ const Page = () => {
 
   const [open, setOpen] = useState<boolean>(false);
 
+  const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
+  const [loadingOnDelete, setLoadingOnDelete] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       if (data?.user?.id) {
@@ -118,7 +121,7 @@ const Page = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-
+    setLoadingOnSubmit(true);
     try {
       const method = expenseId === 0 ? 'POST' : 'PUT';
       const body = JSON.stringify({
@@ -152,12 +155,14 @@ const Page = () => {
       console.error(err);
       showErrorToast('An unexpected error occurred');
     }
+    setLoadingOnSubmit(false);
   };
 
   const handleDelete = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
+    setLoadingOnDelete(true);
     try {
       const response = await fetch(`/api/expense?id=${expenseId}`, {
         method: 'DELETE',
@@ -177,6 +182,7 @@ const Page = () => {
       console.error(err);
       showErrorToast('An unexpected error occurred');
     }
+    setLoadingOnDelete(false);
   };
 
   useEffect(() => {
@@ -239,6 +245,8 @@ const Page = () => {
         handleChangeColor={handleChangeColor}
         onSubmit={onSubmit}
         onDelete={handleDelete}
+        loadingOnSubmit={loadingOnSubmit}
+        loadingOnDelete={loadingOnDelete}
       />
     </main>
   );

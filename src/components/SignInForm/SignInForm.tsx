@@ -8,6 +8,8 @@ import { isValidEmail } from '@lib/utils/validations';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { signIn } from 'next-auth/react';
 import { showErrorToast } from '@lib/utils/toast';
+import { Button } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const SignInForm = () => {
   const router = useRouter();
@@ -16,6 +18,8 @@ const SignInForm = () => {
   const [emailHelperText, setEmailHelperText] = useState('');
   const [password, setPassword] = useState('');
   const [passwordHelperText, setPasswordHelperText] = useState('');
+
+  const [loading, setLoading] = useState(false);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -53,6 +57,7 @@ const SignInForm = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
+    setLoading(true);
 
     const signInData = await signIn('credentials', {
       email: email,
@@ -66,6 +71,7 @@ const SignInForm = () => {
       router.push('/resume');
       router.refresh();
     }
+    setLoading(false);
   };
 
   const handleSignUp = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -93,21 +99,25 @@ const SignInForm = () => {
         helperText={passwordHelperText}
         onChange={handlePasswordChange}
       />
-      <button className={styles.signInButton} type="submit">
+      <LoadingButton
+        className={styles.signInButton}
+        type="submit"
+        loading={loading}
+      >
         Sign in
-      </button>
+      </LoadingButton>
       <div className={styles.orContainer}>
         <div className={styles.line}></div>
         <span className={styles.orText}>Or</span>
         <div className={styles.line}></div>
       </div>
-      <button
+      <Button
         className={styles.signUpButton}
         type="button"
         onClick={handleSignUp}
       >
         Sign up
-      </button>
+      </Button>
     </form>
   );
 };

@@ -28,17 +28,15 @@
 
 .signInButton {
   margin: 12px 0;
-  padding: 12px;
   color: white;
   background-color: #1e293b;
   border: none;
   border-radius: 80px;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.2s ease;
 }
 
 .signInButton:hover {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-  transform: scale(1.01);
 }
 
 .orContainer {
@@ -59,16 +57,13 @@
 }
 
 .signUpButton {
-  margin: 12px 0;
-  padding: 12px;
   color: white;
   background-color: transparent;
   border: 1px solid #94a3b8;
   border-radius: 80px;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.2s ease;
 }
 
 .signUpButton:hover {
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-  transform: scale(1.01);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
