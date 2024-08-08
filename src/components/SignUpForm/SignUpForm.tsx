@@ -6,7 +6,7 @@ import Input from '@components/Input/Input';
 import styles from '@styles/signUp.module.css';
 import { isValidEmail } from '@lib/utils/validations';
 import { showErrorToast, showSuccessToast } from '@lib/utils/toast';
-import { FaUser, FaLock } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import { Button } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -164,7 +164,6 @@ const SignUpForm = () => {
         onChange={handleEmailChange}
       />
       <Input
-        Icon={FaLock}
         label="Password"
         type="password"
         value={password}
@@ -172,7 +171,6 @@ const SignUpForm = () => {
         onChange={handlePasswordChange}
       />
       <Input
-        Icon={FaLock}
         label="Repeat Password"
         type="password"
         value={repeatPassword}

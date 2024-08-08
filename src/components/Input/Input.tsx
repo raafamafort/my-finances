@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IconType } from 'react-icons';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const CustomTextField = styled(TextField)(({ theme }) => ({
   width: '312px',
@@ -56,20 +57,42 @@ const CustomInput = ({
   helperText,
   onChange,
 }: CustomInputProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(prevState => !prevState);
+  };
+
   return (
     <CustomTextField
       variant="standard"
-      type={type}
+      type={type === 'password' && !showPassword ? 'password' : 'text'}
       label={label}
       value={value}
       helperText={helperText}
       onChange={onChange}
       InputProps={{
-        endAdornment: Icon ? (
-          <InputAdornment position="end">
-            <Icon size={20} color="#94A3B8" />
-          </InputAdornment>
-        ) : null,
+        endAdornment: (
+          <>
+            {Icon && (
+              <InputAdornment position="end">
+                <Icon size={20} color="#94A3B8" />
+              </InputAdornment>
+            )}
+            {type === 'password' && (
+              <InputAdornment
+                position="end"
+                onClick={handleTogglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <FaEye size={20} color="#94A3B8" />
+                ) : (
+                  <FaEyeSlash size={20} color="#94A3B8" />
+                )}
+              </InputAdornment>
+            )}
+          </>
+        ),
       }}
     />
   );

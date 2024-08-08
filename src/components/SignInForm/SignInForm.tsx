@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Input from '@components/Input/Input';
 import styles from '@styles/signIn.module.css';
 import { isValidEmail } from '@lib/utils/validations';
-import { FaUser, FaLock } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import { signIn } from 'next-auth/react';
 import { showErrorToast } from '@lib/utils/toast';
 import { Button } from '@mui/material';
@@ -92,7 +92,6 @@ const SignInForm = () => {
         onChange={handleEmailChange}
       />
       <Input
-        Icon={FaLock}
         label="Password"
         type="password"
         value={password}
