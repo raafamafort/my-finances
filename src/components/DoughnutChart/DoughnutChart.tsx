@@ -9,7 +9,6 @@ interface DoughnutChartProps {
 }
 
 const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, currency }) => {
-  console.log(data, 'data');
   const getOption = () => {
     const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
 
