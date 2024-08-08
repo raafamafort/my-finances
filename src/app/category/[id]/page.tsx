@@ -8,6 +8,9 @@ import { useCurrency } from '@context/CurrencyContext';
 import { IoMdAddCircle } from 'react-icons/io';
 import InputModal from '@components/InputModal/InputModal';
 import { showErrorToast, showSuccessToast } from '@lib/utils/toast';
+import { AiFillEdit } from 'react-icons/ai';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 
 interface Expense {
   id: number;
@@ -24,6 +27,7 @@ interface CategoryPageProps {
 
 const CategoryPage = ({ params }: CategoryPageProps) => {
   const { data } = useSession();
+  const router = useRouter();
   const { currency } = useCurrency();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categoryName, setCategoryName] = useState<string>('');
@@ -58,7 +62,7 @@ const CategoryPage = ({ params }: CategoryPageProps) => {
           setExpenses(expenseResult.expenses);
 
           const categoryResult = await categoryResponse.json();
-          setCategoryName(categoryResult.name);
+          setCategoryName(categoryResult.categories[0].name);
         } catch (err) {
           console.error(err);
         }
@@ -194,7 +198,13 @@ const CategoryPage = ({ params }: CategoryPageProps) => {
 
   return (
     <main className={styles.container}>
-      <div className={styles.pageTitle}>
+      <div
+        className={styles.categoryTitle}
+        onClick={() => {
+          router.push('/expense');
+        }}
+      >
+        <FaArrowLeft />
         <h1>{categoryName}</h1>
       </div>
       <div className={styles.content}>
@@ -208,6 +218,11 @@ const CategoryPage = ({ params }: CategoryPageProps) => {
                 <span>{expense.description}</span>
                 <div className={styles.balanceAmount}>
                   <span>{`${currency} ${expense.amount}`}</span>
+                  <AiFillEdit
+                    size={20}
+                    color="#94A3B8"
+                    onClick={() => handleOpen(expense)}
+                  />
                 </div>
               </div>
             </div>

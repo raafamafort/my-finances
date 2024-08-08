@@ -8,6 +8,13 @@
   padding: 1rem 0 0 1rem;
 }
 
+.categoryTitle {
+  padding: 1rem 0 0 1rem;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .balances {
   display: flex;
   flex-direction: column;
