@@ -214,7 +214,7 @@ const CategoryPage = ({ params }: CategoryPageProps) => {
           router.push('/expense');
         }}
       >
-        <FaArrowLeft />
+        <FaArrowLeft size={24} />
         <h1>{categoryName}</h1>
       </div>
       <div className={styles.content}>

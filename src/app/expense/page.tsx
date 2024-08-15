@@ -10,7 +10,7 @@ import { AiFillEdit } from 'react-icons/ai';
 import { IoMdAddCircle } from 'react-icons/io';
 import { useCurrency } from '@context/CurrencyContext';
 import CategoryModal from '@components/CategoryModal/CategoryModal';
-import { BiSolidCategoryAlt } from 'react-icons/bi';
+import { FaArrowRight } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 
 interface Expense {
@@ -372,11 +372,7 @@ const Page = () => {
           {categories.map((category, index) => (
             <div key={index}>
               <div className={styles.balanceItem}>
-                <div
-                  className={styles.balanceAmount}
-                  onClick={() => handleOpenCategoryPage(category)}
-                >
-                  <BiSolidCategoryAlt size={20} color="#94A3B8" />
+                <div className={styles.balanceAmount}>
                   <span>{category.name}</span>
                 </div>
                 <div className={styles.balanceAmount}>
@@ -387,6 +383,13 @@ const Page = () => {
                     onClick={e => {
                       e.stopPropagation();
                       handleOpenCategoryModal(category);
+                    }}
+                  />
+                  <FaArrowRight
+                    size={20}
+                    color="#94A3B8"
+                    onClick={() => {
+                      handleOpenCategoryPage(category);
                     }}
                   />
                 </div>
