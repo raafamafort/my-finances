@@ -25,7 +25,7 @@ export default function Navbar({ toggleDrawer }: NavbarProps) {
                 </IconButton>
             </div>
             <div className={styles.rightNav}>
-                <ChangeCurrency />
+                {/* <ChangeCurrency /> */}
                 <ProfileIcon
                     name={session?.user?.name}
                     lastName={session?.user?.lastName}

@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Currency {
+  BRL
+  USD
+  EUR
+}
+
 model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
@@ -25,7 +31,8 @@ model Income {
   amount      Float
   description String
   color       String
-
+  currency    Currency   @default(BRL)
+  
   User User @relation(fields: [userId], references: [id])
 }
 
@@ -36,7 +43,8 @@ model Expense {
   description String
   color       String
   categoryId  Int?
-
+  currency    Currency   @default(BRL)
+  
   User     User     @relation(fields: [userId], references: [id])
   Category Category? @relation(fields: [categoryId], references: [id])
 }
