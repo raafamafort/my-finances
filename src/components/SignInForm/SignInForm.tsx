@@ -12,113 +12,115 @@ import { Button } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 const SignInForm = () => {
-  const router = useRouter();
+    const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const [emailHelperText, setEmailHelperText] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordHelperText, setPasswordHelperText] = useState('');
+    const [email, setEmail] = useState('');
+    const [emailHelperText, setEmailHelperText] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordHelperText, setPasswordHelperText] = useState('');
 
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
+    };
 
-  const validateForm = () => {
-    let isValid = true;
-    if (email === '') {
-      setEmailHelperText('Email is required');
-      isValid = false;
-    } else if (!isValidEmail(email)) {
-      setEmailHelperText('Invalid email format');
-      isValid = false;
-    } else {
-      setEmailHelperText('');
-    }
+    const validateForm = () => {
+        let isValid = true;
+        if (email === '') {
+            setEmailHelperText('Email is required');
+            isValid = false;
+        } else if (!isValidEmail(email)) {
+            setEmailHelperText('Invalid email format');
+            isValid = false;
+        } else {
+            setEmailHelperText('');
+        }
 
-    if (password === '') {
-      setPasswordHelperText('Password is required');
-      isValid = false;
-    } else if (password.length < 8) {
-      setPasswordHelperText('Password must be at least 8 characters long');
-      isValid = false;
-    } else {
-      setPasswordHelperText('');
-    }
+        if (password === '') {
+            setPasswordHelperText('Password is required');
+            isValid = false;
+        } else if (password.length < 8) {
+            setPasswordHelperText(
+                'Password must be at least 8 characters long'
+            );
+            isValid = false;
+        } else {
+            setPasswordHelperText('');
+        }
 
-    return isValid;
-  };
+        return isValid;
+    };
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    setLoading(true);
+    const onSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+        setLoading(true);
 
-    const signInData = await signIn('credentials', {
-      email: email,
-      password: password,
-      redirect: false,
-    });
+        const signInData = await signIn('credentials', {
+            email: email,
+            password: password,
+            redirect: false,
+        });
 
-    if (signInData?.error) {
-      showErrorToast('Incorrect email or password');
-    } else {
-      router.push('/net-income');
-      router.refresh();
-    }
-    setLoading(false);
-  };
+        if (signInData?.error) {
+            showErrorToast('Incorrect email or password');
+        } else {
+            router.push('/net-income');
+            router.refresh();
+        }
+        setLoading(false);
+    };
 
-  const handleSignUp = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    localStorage.setItem('currency', 'R$');
-    router.push('/sign-up');
-  };
+    const handleSignUp = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        localStorage.setItem('currency', 'R$');
+        router.push('/sign-up');
+    };
 
-  return (
-    <form className={styles.signInForm} onSubmit={onSubmit}>
-      <h1>Sign In</h1>
-      <Input
-        Icon={FaUser}
-        label="Email"
-        type="text"
-        value={email}
-        helperText={emailHelperText}
-        onChange={handleEmailChange}
-      />
-      <Input
-        label="Password"
-        type="password"
-        value={password}
-        helperText={passwordHelperText}
-        onChange={handlePasswordChange}
-      />
-      <LoadingButton
-        className={styles.signInButton}
-        type="submit"
-        loading={loading}
-      >
-        Sign in
-      </LoadingButton>
-      <div className={styles.orContainer}>
-        <div className={styles.line}></div>
-        <span className={styles.orText}>Or</span>
-        <div className={styles.line}></div>
-      </div>
-      <Button
-        className={styles.signUpButton}
-        type="button"
-        onClick={handleSignUp}
-      >
-        Sign up
-      </Button>
-    </form>
-  );
+    return (
+        <form className={styles.signInForm} onSubmit={onSubmit}>
+            <h1>Sign In</h1>
+            <Input
+                Icon={FaUser}
+                label="Email"
+                type="text"
+                value={email}
+                helperText={emailHelperText}
+                onChange={handleEmailChange}
+            />
+            <Input
+                label="Password"
+                type="password"
+                value={password}
+                helperText={passwordHelperText}
+                onChange={handlePasswordChange}
+            />
+            <LoadingButton
+                className={styles.signInButton}
+                type="submit"
+                loading={loading}
+            >
+                Sign in
+            </LoadingButton>
+            <div className={styles.orContainer}>
+                <div className={styles.line}></div>
+                <span className={styles.orText}>Or</span>
+                <div className={styles.line}></div>
+            </div>
+            <Button
+                className={styles.signUpButton}
+                type="button"
+                onClick={handleSignUp}
+            >
+                Sign up
+            </Button>
+        </form>
+    );
 };
 
 export default SignInForm;

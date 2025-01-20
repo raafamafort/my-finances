@@ -1,20 +1,20 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  color: #fff;
-  background-color: #0e1c2d;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: #fff;
+    background-color: #0e1c2d;
 }
 
 .main-content {
-  transition:
-    margin-left 0.2s ease,
-    width 0.2s ease;
+    transition:
+        margin-left 0.2s ease,
+        width 0.2s ease;
 }

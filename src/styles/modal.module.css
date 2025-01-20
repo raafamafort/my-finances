@@ -1,62 +1,62 @@
 .modalBox {
-  position: absolute;
-  min-width: 340px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #0e1c2d;
-  padding: 16px;
-  box-shadow: 24px;
-  border-radius: 8px;
-  outline: none;
+    position: absolute;
+    min-width: 340px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0e1c2d;
+    padding: 16px;
+    box-shadow: 24px;
+    border-radius: 8px;
+    outline: none;
 }
 
 .modalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .closeButton {
-  color: #94a3b8;
-  transition:
-    transform 0.3s ease,
-    color 0.3s ease;
+    color: #94a3b8;
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease;
 }
 
 .closeButton:hover {
-  color: white;
-  transform: scale(1.05);
+    color: white;
+    transform: scale(1.05);
 }
 
 .modalBody {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .modalFooter {
-  display: flex;
-  justify-content: end;
-  gap: 12px;
+    display: flex;
+    justify-content: end;
+    gap: 12px;
 }
 
 .submitButton {
-  color: #ffffff;
-  background-color: #1e293b;
-  border: none;
-  border-radius: 8px;
-  transition: box-shadow 0.3s ease;
+    color: #ffffff;
+    background-color: #1e293b;
+    border: none;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
 }
 
 .submitButton:hover {
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 .editButton {
-  color: #ff735f;
-  background-color: transparent;
-  border: none;
+    color: #ff735f;
+    background-color: transparent;
+    border: none;
 }

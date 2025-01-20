@@ -16,52 +16,55 @@ const inter = Inter({ subsets: ['latin'] });
 const drawerWidth = 280;
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+    const toggleDrawer = () => {
+        setOpen(!open);
+    };
 
-  const isWideScreen = useMediaQuery('(min-width:960px)');
+    const isWideScreen = useMediaQuery('(min-width:960px)');
 
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Provider>
-          <CurrencyProvider>
-            <main
-              className={'main-content'}
-              style={{
-                flexGrow: 1,
-                marginLeft: open && isWideScreen ? drawerWidth : 0,
-                width: `calc(100% - ${open && isWideScreen ? drawerWidth : 0}px)`,
-              }}
-            >
-              <Navbar toggleDrawer={toggleDrawer} />
-              <Drawer open={open} toggleDrawer={toggleDrawer} />
-              {children}
-              {open && (
-                <div
-                  onClick={toggleDrawer}
-                  style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: drawerWidth,
-                    width: `calc(100% - ${drawerWidth}px)`,
-                    height: '100%',
-                    zIndex: 1300,
-                  }}
-                ></div>
-              )}
-            </main>
-          </CurrencyProvider>
-          <ToastContainer toastStyle={{ backgroundColor: '#1E293B' }} />
-        </Provider>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body className={inter.className}>
+                <Provider>
+                    <CurrencyProvider>
+                        <main
+                            className={'main-content'}
+                            style={{
+                                flexGrow: 1,
+                                marginLeft:
+                                    open && isWideScreen ? drawerWidth : 0,
+                                width: `calc(100% - ${open && isWideScreen ? drawerWidth : 0}px)`,
+                            }}
+                        >
+                            <Navbar toggleDrawer={toggleDrawer} />
+                            <Drawer open={open} toggleDrawer={toggleDrawer} />
+                            {children}
+                            {open && (
+                                <div
+                                    onClick={toggleDrawer}
+                                    style={{
+                                        position: 'fixed',
+                                        top: 0,
+                                        left: drawerWidth,
+                                        width: `calc(100% - ${drawerWidth}px)`,
+                                        height: '100%',
+                                        zIndex: 1300,
+                                    }}
+                                ></div>
+                            )}
+                        </main>
+                    </CurrencyProvider>
+                    <ToastContainer
+                        toastStyle={{ backgroundColor: '#1E293B' }}
+                    />
+                </Provider>
+            </body>
+        </html>
+    );
 }

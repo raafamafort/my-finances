@@ -1,44 +1,44 @@
 .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 40px;
 }
 
 .pageTitle {
-  padding: 1rem 0 0 1rem;
+    padding: 1rem 0 0 1rem;
 }
 
 .categoryTitle {
-  padding: 1rem 0 0 1rem;
-  display: flex;
-  gap: 10px;
-  align-items: center;
+    padding: 1rem 0 0 1rem;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .balances {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 360px;
-  height: 100%;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 360px;
+    height: 100%;
+    gap: 12px;
 }
 
 .balanceItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 12px;
-  width: 320px;
-  height: 40px;
-  background-color: #1e293b;
-  border-radius: 10px;
-  font-size: 1.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    width: 320px;
+    height: 40px;
+    background-color: #1e293b;
+    border-radius: 10px;
+    font-size: 1.3rem;
 }
 
 .balanceAmount {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
